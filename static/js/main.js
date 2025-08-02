@@ -85,6 +85,86 @@ function restartGame() {
     document.getElementById('score').textContent = '0';
     showQuestion(currentQuestionIndex);
 }
+// 执行代码并返回事件列表
+async function executeCode(code) {
+  // 清空历史事件
+  await pyodide.runPython("execution_events = []");
+  // 执行用户代码（用monitor_variables装饰关键函数）
+  const wrappedCode = `
+    @monitor_variables
+    def user_code():
+        ${code.replace(/\n/g, '\n        ')}  # 缩进适配
+    user_code()
+  `;
+  try {
+    await pyodide.runPython(wrappedCode);
+    // 获取执行事件（转换为JavaScript对象）
+    const events = pyodide.globals.get("execution_events").toJs();
+    return { success: true, events };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+// 生成变量变化图表（以列表为例）
+async function generateVariablePlot(events) {
+  // 提取所有步骤中的列表变量
+  const listData = events.filter(e => e.type === "post_exec")
+    .map(e => e.vars.my_list || []);  // 假设变量名为my_list
 
+  // 在Pyodide中用Matplotlib绘图
+  await pyodide.runPython(`
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # 准备数据
+    steps = ${JSON.stringify(listData.map((_, i) => i))}
+    list_lengths = ${JSON.stringify(listData.map(l => l.length))}
+
+    # 绘图
+    plt.figure(figsize=(5, 3))
+    plt.plot(steps, list_lengths, 'bo-', label='列表长度变化')
+    plt.xlabel('执行步骤')
+    plt.ylabel('长度')
+    plt.title('列表动态变化')
+    plt.legend()
+
+    # 保存为图片（转为Base64 URL）
+    from io import BytesIO, StringIO
+    buf = BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight')
+    buf.seek(0)
+    import base64
+    plot_url = base64.b64encode(buf.read()).decode('utf-8')
+  `);
+
+  // 获取图片URL并返回
+  const plotUrl = pyodide.globals.get("plot_url");
+  return `data:image/png;base64,${plotUrl}`;
+}
+// Canvas绘制执行流程
+function renderExecutionFlow(canvas, codeLines, currentStep) {
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // 绘制代码行
+  codeLines.forEach((line, index) => {
+    ctx.fillStyle = index === currentStep ? "lightgreen" : "white";  // 高亮当前步骤
+    ctx.fillRect(10, 30 + index*30, canvas.width - 20, 25);
+    ctx.fillStyle = "black";
+    ctx.fillText(`${index+1}: ${line}`, 20, 50 + index*30);
+  });
+
+  // 绘制箭头（指向下一步）
+  if (currentStep < codeLines.length - 1) {
+    const y = 45 + currentStep*30;
+    ctx.beginPath();
+    ctx.moveTo(canvas.width - 40, y);
+    ctx.lineTo(canvas.width - 20, y);
+    ctx.lineTo(canvas.width - 30, y - 10);
+    ctx.lineTo(canvas.width - 20, y);
+    ctx.lineTo(canvas.width - 30, y + 10);
+    ctx.fill();
+  }
+}
 // Start the game when the page loads
 document.addEventListener('DOMContentLoaded', loadQuestions);
