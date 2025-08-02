@@ -36,6 +36,32 @@
     </style>
 </head>
 <body>
+  <!-- 答题后显示可视化区域 -->
+<div id="visualization-area" style="display: none;">
+  <h4>代码执行可视化</h4>
+  <canvas id="flow-canvas" width="600" height="300"></canvas>
+  <img id="variable-plot" style="max-width: 100%;">
+  <button onclick="nextStep()">下一步</button>
+</div>
+
+<script>
+  // 答题正确后触发可视化
+  function onAnswerCorrect(question) {
+    const correctCode = question.correctCode;  // 假设题目中包含正确代码片段
+    const codeLines = correctCode.split('\n');
+    // 执行代码并获取事件
+    executeCode(correctCode).then(({ events }) => {
+      document.getElementById('visualization-area').style.display = 'block';
+      // 初始化流程画布
+      const canvas = document.getElementById('flow-canvas');
+      renderExecutionFlow(canvas, codeLines, 0);
+      // 生成变量变化图
+      generateVariablePlot(events).then(url => {
+        document.getElementById('variable-plot').src = url;
+      });
+    });
+  }
+</script>
     <h1>Python Quiz</h1>
     <div class="quiz-container">
         <h2>Welcome to the Python Quiz!</h2>
