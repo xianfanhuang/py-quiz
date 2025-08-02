@@ -1,3 +1,14 @@
+
+let pyodide;
+async function initPyodide() {
+  // 加载工作流构建的Pyodide资源（路径不变，但内容由CI自动生成）
+  pyodide = await loadPyodide({
+    indexURL: "static/pyodide/",  // 与工作流output-dir对应
+  });
+  // 无需手动加载packages，工作流已预装matplotlib等
+  console.log("Pyodide初始化完成（工作流构建版）");
+}
+window.onload = initPyodide;
 let currentQuestionIndex = 0;
 let score = 0;
 let questions = [];
