@@ -1,3 +1,5 @@
+  name: pyodide-buildpackage-action
+  uses: jobovy/pyodide-buildpackage-action@v1.0.0
 # 将静态内容部署到 GitHub Pages 的简易工作流程
 name: Deploy static content to Pages
 # 仅在推送到默认分支时运行。
