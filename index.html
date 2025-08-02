@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!-- 加载Pyodide -->
+<script src="static/pyodide/pyodide.js"></script>
+<script>
+  let pyodide;
+  // 初始化Pyodide环境（首次加载可能需要几秒，因.wasm文件较大）
+  async function initPyodide() {
+    pyodide = await loadPyodide({
+      indexURL: "static/pyodide/",  // 指向Pyodide资源目录
+    });
+    // 预安装所需的Python库（如matplotlib）
+    await pyodide.loadPackage(["matplotlib"]);
+    console.log("Pyodide初始化完成，可执行Python代码");
+  }
+  // 页面加载时初始化
+  window.onload = initPyodide;
+</script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
