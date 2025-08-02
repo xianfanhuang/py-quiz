@@ -3,31 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guess Who - Movie Character Quiz</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <title>Python Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .quiz-container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Guess Who - Movie Character Quiz</h1>
-            <div class="score">Score: <span id="score">0</span></div>
-        </header>
-
-        <main class="game-area">
-            <div id="question-container">
-                <p id="question-text"></p>
-            </div>
-
-            <div id="options-container"></div>
-            
-            <button id="next-btn" class="hidden">Next Question</button>
-        </main>
-
-        <footer>
-            <p>&copy; 2025 Movie Character Quiz. All rights reserved.</p>
-        </footer>
+    <h1>Python Quiz</h1>
+    <div class="quiz-container">
+        <h2>Welcome to the Python Quiz!</h2>
+        <p>Get ready to test your Python knowledge.</p>
+        <div id="quiz">
+            <!-- Quiz content will be loaded here -->
+        </div>
     </div>
-
-    <script src="static/js/main.js"></script>
+    <script>
+        // Quiz functionality will be added here
+    </script>
 </body>
 </html>
