@@ -1,38 +1,60 @@
-  name: pyodide-buildpackage-action
-  uses: jobovy/pyodide-buildpackage-action@v1.0.0
-# 将静态内容部署到 GitHub Pages 的简易工作流程
-name: Deploy static content to Pages
-# 仅在推送到默认分支时运行。
-push:
-  branches: ['main']
-# 这个选项可以使你手动在 Action tab 页面触发工作流
-workflow_dispatch:
-# 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages。
+# 整合Pyodide构建与静态部署的工作流
+name: Build Pyodide & Deploy to Pages
+
+# 触发条件：推送到main分支或手动触发
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+# 部署权限设置（必要）
 permissions:
   contents: write
-# 允许一个并发的部署
+
+# 并发控制（避免重复部署，必要）
 concurrency:
-  cancel - in - progress: true
-# 单次部署的工作描述
-name: github - pages
-runs - on: ubuntu - latest
-steps:
-  - name: Checkout Repository
-    uses: actions/checkout@v4
-  - name: 设置node环境
-    uses: actions/setup - node@v4
-    with:
-      node - version: 20.x
-  - name: 安装依赖
-    run: npm install
-  - name: Build
-    run: npm run build
-  - name: Setup Pages
-    uses: actions/configure - pages@v4
-  - name: Upload artifact
-    uses: actions/upload - pages - artifact@v3
-    with:
-      # Upload dist folder
-      path: './dist'
-  - name: Deploy to GitHub Pages
-    uses: actions/deploy - pages@v4
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 拉取代码（核心步骤）
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. 新增：构建Pyodide环境（核心新增）
+      - name: Build Custom Pyodide
+        uses: jobovy/pyodide-buildpackage-action@v1.0.0
+        with:
+          pyodide-version: 0.25.0  # 锁定Pyodide版本
+          packages: |  # 仅保留项目必需的库
+            matplotlib  # 用于代码可视化绘图
+          output-dir: './dist/static/pyodide'  # 输出到dist目录（与后续部署路径对齐）
+
+      # 3. 保留Node环境（若项目需npm构建，如前端打包；无需则可删除此步骤）
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      # 4. 安装依赖并构建项目（若项目需npm构建则保留，否则删除）
+      - name: Install & Build
+        run: |
+          npm install
+          npm run build
+
+      # 5. 配置GitHub Pages（标准步骤）
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # 6. 上传部署产物（包含Pyodide和项目构建文件）
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'  # 包含Pyodide（dist/static/pyodide）和项目静态文件
+
+      # 7. 部署到GitHub Pages
+      - name: Deploy to Pages
+        uses: actions/deploy-pages@v4
