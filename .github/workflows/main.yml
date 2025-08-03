@@ -58,3 +58,8 @@ jobs:
       # 7. 部署到GitHub Pages
       - name: Deploy to Pages
         uses: actions/deploy-pages@v4
+        runs-on: ubuntu-latest  # 显式指定运行环境
+        needs: [build-deploy]   # 依赖前面的构建任务
+        permissions:
+          pages: write          # 必需的部署权限
+          id-token: write       # 用于身份验证
