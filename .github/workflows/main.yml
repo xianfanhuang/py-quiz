@@ -23,4 +23,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./  # 部署目录包含新增的Pyodide资源
+          publish_dir: ./  # 部署目录包含新增的Pyodide资
