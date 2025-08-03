@@ -14,9 +14,8 @@ jobs:
         uses: jobovy/pyodide-buildpackage-action@v1.0.0
         with:
          pyodide-tag:0.25.0
-          meta-yaml-path:'./pyodide_meta.yaml'
-            matplotlib
-            pillow
+          meta-yaml-path:./pyodide_meta.yaml
+        
           output-dir: static/pyodide
       
       - name: 部署到GitHub Pages  # 保留原有部署步骤
