@@ -346,7 +346,7 @@
 },
 {
 "id": 28,
-"question": "Python中，如何向字典中添加新键值对？",
+"question": "Python中，如何向字典中添加新的键值对？",
 "options": [
 "dict[key] = value",
 "dict.add(key, value)",
