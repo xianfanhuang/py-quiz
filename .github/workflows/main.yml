@@ -16,35 +16,39 @@ jobs:
         with:
           fetch-depth: 0
 
-      # 关键修改：使用自定义Docker容器
+      # 使用Docker容器进行构建
       - name: 构建自定义 Pyodide
-        uses: docker://ubuntu:22.04
-        with:
-          entrypoint: /bin/bash
-        env:
-          PYODIDE_VERSION: 0.25.0
         run: |
-          # 在容器内部安装Python 3.11
-          apt-get update
-          apt-get install -y software-properties-common
-          add-apt-repository -y ppa:deadsnakes/ppa
-          apt-get install -y python3.11 python3.11-dev python3.11-venv
-          
-          # 安装构建依赖
-          apt-get install -y cmake nodejs npm git curl make g++
-          
-          # 创建Python 3.11虚拟环境
-          python3.11 -m venv /pyodide-venv
-          source /pyodide-venv/bin/activate
-          
-          # 安装Pyodide构建工具
-          pip install pyodide-build==$PYODIDE_VERSION
-          
-          # 构建Pyodide
-          pyodide build --output-dir ./dist/static/pyodide --meta-yaml-path ./pyodide_meta.yaml
-          
-          # 修复权限问题
-          chmod -R 777 ./dist
+          docker run --rm -v "$PWD":/workspace -w /workspace ubuntu:22.04 /bin/bash -c '
+            # 安装构建依赖
+            apt-get update && apt-get install -y \
+                software-properties-common \
+                build-essential \
+                cmake \
+                nodejs \
+                npm \
+                git \
+                curl \
+                make \
+                g++
+            
+            # 安装Python 3.11
+            add-apt-repository -y ppa:deadsnakes/ppa
+            apt-get install -y python3.11 python3.11-dev python3.11-venv
+            
+            # 创建虚拟环境
+            python3.11 -m venv /venv
+            source /venv/bin/activate
+            
+            # 安装构建工具
+            pip install pyodide-build==0.25.0
+            
+            # 构建Pyodide
+            pyodide build --output-dir ./dist/static/pyodide --meta-yaml-path ./pyodide_meta.yaml
+            
+            # 修复权限问题
+            chmod -R 777 ./dist
+          '
 
       - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
