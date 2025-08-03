@@ -33,7 +33,20 @@ jobs:
                 g++
             
             # 安装Python 3.11
+
             add-apt-repository -y ppa:deadsnakes/ppa
+    # 自动安装Python 3.11（跳过时区配置）
+    apt-get install -y --no-install-recommends \
+        python3.11 \
+        python3.11-dev \
+        python3.11-venv \
+        tzdata
+    
+    # 设置默认时区
+    ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    dpkg-reconfigure --frontend noninteractive tzdata
+    
+    # 继续构建...
             apt-get install -y python3.11 python3.11-dev python3.11-venv
             
             # 创建虚拟环境
