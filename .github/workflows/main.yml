@@ -9,16 +9,14 @@ jobs:
       - name: 拉取代码
         uses: actions/checkout@v4  # 保留原有拉取步骤
       
-      # 新增：Pyodide构建步骤（核心新增内容）
-      - name: 定制化构建Pyodide环境
-        uses: jobovy/pyodide-buildpackage-action@v1.0.0
-        with:
-         pyodide-tag:0.25.0
-          meta-yaml-path:./pyodide_meta.yaml
-        
-          output-dir:./static/pyodide
-      
-      - name: 部署到GitHub Pages  # 保留原有部署步骤
+  - name: Build Custom Pyodide
+  uses: jobovy/pyodide-buildpackage-action@v1.0.0
+  with:
+    # 原 'pyodide-version' 改为 'pyodide-tag'（用标签指定版本，如 0.25.0）
+    pyodide-tag: 0.25.0  
+    # 原 'packages' 需写进 meta.yaml 文件，通过 'meta-yaml-path' 引用
+    meta-yaml-path: './pyodide_meta.yaml'  
+    output-dir: './dist/static/pyodide'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
