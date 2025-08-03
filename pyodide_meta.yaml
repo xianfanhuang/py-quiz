@@ -1,1 +1,2 @@
-1
+packages:
+  - matplotlib  # 原 packages 里的依赖写这里
