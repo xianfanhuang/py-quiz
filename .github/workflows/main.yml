@@ -1,37 +1,50 @@
-name: Build Pyodide & Deploy to GitHub Pages  # 清晰体现工作流功能
+name: Build Pyodide & Deploy to GitHub Pages
 on:
   push:
     branches: [main]  # 代码推送到 main 分支时触发
+  workflow_dispatch:  # 手动触发
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest  # 切换为 ubuntu 环境
+    runs-on: ubuntu-latest  # 稳定的 Linux 环境（适配容器 Action）
     steps:
       - name: 拉取代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  # 拉取仓库代码
 
-    - name: 强制安装 Python 3.11
-  uses: actions/setup-python@v5
-  with:
-    python-version: 3.11  # 覆盖系统高版本
-    cache: 'pip'
+      # 关键：强制安装 Python 3.11（覆盖系统版本，解决工具依赖）
+      - name: 安装 Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11    # 严格匹配工具要求的版本
+          cache: 'pip'            # 可选：加速后续依赖安装
 
-- name: 验证 Python 版本
-  run: |
-    python3.11 --version  # 确保是 3.11.x
-    which python3.11     # 确认路径
+      # 验证 Python 环境（确保版本正确）
+      - name: 检查 Python 版本
+        run: |
+          python3.11 --version     # 应输出 3.11.x
+          which python3.11         # 确认路径为 GitHub Actions 环境路径
 
-      - name: Build Custom Pyodide
+      # 构建自定义 Pyodide（使用正确版本 Python）
+      - name: 构建自定义 Pyodide
         uses: jobovy/pyodide-buildpackage-action@v1.0.0
         with:
-          pyodide-tag: 0.25.0  
-          meta-yaml-path: ./pyodide_meta.yaml  
-          output-dir: ./dist/static/pyodide
+          pyodide-tag: 0.25.0      # Pyodide 版本标签
+          meta-yaml-path: ./pyodide_meta.yaml  # 依赖配置文件
+          output-dir: ./dist/static/pyodide  # 构建产物输出目录
 
-      # 部署步骤... # 输出构建产物的目录
-
-      - name: Deploy to GitHub Pages  # 新增部署步骤，使用正确动作
+      # 部署到 GitHub Pages（假设前端产物在 dist 目录，按需调整）
+      - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # 利用 GitHub 密钥授权部署
-          publish_dir: ./dist  # 假设前端构建产物在 dist 目录，按需调整；若为根目录部署，确保内容正确且无敏感文件
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # 自动获取部署权限
+          publish_dir: ./dist  # 部署目录（根据项目实际调整）
+
+      # （可选）清理缓存（避免后续运行冲突）
+      - name: 清理缓存
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            ./dist/static/pyodide
+          key: pyodide-cache-${{ hashFiles('pyodide_meta.yaml') }}
+          action: delete  # 强制清理旧缓存
