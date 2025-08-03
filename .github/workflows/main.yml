@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: mocs-latest
+    runs-on: maocs-latest
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
