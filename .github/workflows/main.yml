@@ -2,84 +2,87 @@ name: Build Pyodide & Deploy to GitHub Pages
 
 # 触发条件
 on:
-  # 推送至 main 分支时触发
+  # 推送至 main 分支时自动触发
   push:
-    branches: 
-      - main  
+    branches:
+      - main
   # 手动触发
-  workflow_dispatch:  
-
-# 权限设置（按需调整）
-permissions:
-  contents: write  
-  pages: write     
-
-# 并发控制（避免重复部署）
-concurrency:
-  group: github-pages
-  cancel-in-progress: true
+  workflow_dispatch:
 
 jobs:
   # 构建与部署作业
   build-and-deploy:
     # 使用 Ubuntu 最新环境
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
+
     steps:
       # 1. 拉取代码
       - name: 拉取代码
-        uses: actions/checkout@v4  
+        uses: actions/checkout@v4
         with:
-          # 确保拉取完整历史（按需调整）
-          fetch-depth: 0  
+          # 确保拉取完整代码历史（按需调整）
+          fetch-depth: 0
 
-      # 2. 安装 Python 3.11（关键步骤）
+      # 2. 安装 Python 3.11
       - name: 安装 Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           # 指定 Python 版本
-          python-version: 3.11  
+          python-version: 3.11
           # 启用 pip 缓存加速
-          cache: pip  
+          cache: pip
           # 跳过依赖检测（无 requirements.txt 时必须）
-          cache-dependency-path: ''  
+          cache-dependency-path: ''
 
       # 3. 验证 Python 环境
       - name: 检查 Python 版本
         run: |
           # 输出版本号
-          python3.11 --version  
+          python3.11 --version
           # 输出可执行文件路径
-          which python3.11       
+          which python3.11
 
-      # 4. 构建自定义 Pyodide
+      # 4. 构建自定义 Pyodide（关键步骤）
       - name: 构建自定义 Pyodide
-        uses: jobovy/pyodide-buildpackage-action@v1.0.0  
+        uses: jobovy/pyodide-buildpackage-action@v1.0.0
         with:
           # Pyodide 版本标签
-          pyodide-tag: 0.25.0  
+          pyodide-tag: 0.25.0
           # 依赖配置文件路径
-          meta-yaml-path: ./pyodide_meta.yaml  
+          meta-yaml-path: ./pyodide_meta.yaml
           # 构建产物输出目录
-          output-dir: ./dist/static/pyodide  
+          output-dir: ./dist/static/pyodide
+        env:
+          # 显式传递 Python 可执行文件路径（从“检查 Python 版本”步骤复制）
+          PYTHON_EXECUTABLE: /opt/hostedtoolcache/Python/3.11.13/x64/bin/python3.11
 
       # 5. 部署到 GitHub Pages
       - name: 部署到 GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3  
+        uses: peaceiris/actions-gh-pages@v3
         with:
           # GitHub Token（自动注入）
-          github_token: ${{ secrets.GITHUB_TOKEN }}  
-          # 部署目录（根据项目调整）
-          publish_dir: ./dist  
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # 部署目录（根据项目实际调整）
+          publish_dir: ./dist
 
       # 6. 清理缓存（可选）
       - name: 清理缓存
-        uses: actions/cache@v3  
+        uses: actions/cache@v3
         with:
           path: |
             ~/.cache/pip
             ./dist/static/pyodide
           # 缓存键（根据需求调整）
-          key: pyodide-cache-${{ hashFiles('pyodide_meta.yaml') }}  
-          # 强制删除旧缓存
+          key: pyodide-cache-${{ hashFiles('pyodide_meta.yaml') }}
+          # 强制清理旧缓存
           action: delete
 
+# （可选）权限配置（按需调整）
+permissions:
+  contents: write
+  pages: write
+
+# （可选）并发控制（避免重复部署）
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
