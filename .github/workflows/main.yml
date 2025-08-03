@@ -5,23 +5,32 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: maocs-latest
+    runs-on: macos-13  # 切换为 macOS 环境
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
 
-      # 新增：安装 Python 3.11
-      - name: Setup Python 3.11
+      # 利用 macOS 系统预装 Python（可能是 3.x 版本，尝试适配）
+      - name: 检查系统 Python
+        run: |
+          python3 --version  # 看系统预装 Python 版本
+          which python3     # 确认路径
+
+      # 若系统 Python 版本不够，仍需装 3.11（但 macOS 环境预装较新，可能可跳过）
+      - name: 按需安装 Python 3.11（可选，若系统版本够则注释）
+        if: ${{ false }}  # 手动控制是否执行，测试时可改为 true
         uses: actions/setup-python@v5
         with:
           python-version: 3.11
 
-      - name: Build Custom Pyodide  # 构建自定义 Pyodide 环境
+      - name: Build Custom Pyodide
         uses: jobovy/pyodide-buildpackage-action@v1.0.0
         with:
-          pyodide-tag: 0.25.0  # 用标签指定 Pyodide 版本，替代原版本参数
-          meta-yaml-path: ./pyodide_meta.yaml  # 指向依赖配置文件
-          output-dir: ./dist/static/pyodide  # 输出构建产物的目录
+          pyodide-tag: 0.25.0  
+          meta-yaml-path: ./pyodide_meta.yaml  
+          output-dir: ./dist/static/pyodide
+
+      # 部署步骤... # 输出构建产物的目录
 
       - name: Deploy to GitHub Pages  # 新增部署步骤，使用正确动作
         uses: peaceiris/actions-gh-pages@v3
