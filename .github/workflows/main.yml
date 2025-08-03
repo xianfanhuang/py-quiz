@@ -3,12 +3,18 @@ on:
   push:
     branches: [main]  # 代码推送到 main 分支时触发
 
-jobs:  # 注意原内容是 job（单数），这里修正为 jobs（复数，GitHub Actions 语法要求）
-  build-and-deploy:  # 体现“构建 + 部署”的 job 名称，语义清晰
-    runs-on: ubuntu-latest  # 运行环境保持不变
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
     steps:
       - name: 拉取代码
-        uses: actions/checkout@v4  # 拉取仓库代码到运行环境
+        uses: actions/checkout@v4
+
+      # 新增：安装 Python 3.11
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
 
       - name: Build Custom Pyodide  # 构建自定义 Pyodide 环境
         uses: jobovy/pyodide-buildpackage-action@v1.0.0
