@@ -13,8 +13,8 @@ jobs:
       - name: 定制化构建Pyodide环境
         uses: jobovy/pyodide-buildpackage-action@v1.0.0
         with:
-          pyodide-version: 0.25.0
-          packages: |
+         pyodide-tag:0.25.0
+          meta-yaml-path:'./pyodide_meta.yaml'
             matplotlib
             pillow
           output-dir: static/pyodide
