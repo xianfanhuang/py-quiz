@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: 3.11    # 严格匹配工具要求的版本
           cache: 'pip'            # 可选：加速后续依赖安装
-
+    cache-dependency-path: ''  # 禁用依赖检测
       # 验证 Python 环境（确保版本正确）
       - name: 检查 Python 版本
         run: |
