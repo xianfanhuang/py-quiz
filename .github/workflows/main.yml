@@ -10,18 +10,16 @@ jobs:
       - name: 拉取代码
         uses: actions/checkout@v4
 
-      # 利用 macOS 系统预装 Python（可能是 3.x 版本，尝试适配）
-      - name: 检查系统 Python
-        run: |
-          python3 --version  # 看系统预装 Python 版本
-          which python3     # 确认路径
+    - name: 强制安装 Python 3.11
+  uses: actions/setup-python@v5
+  with:
+    python-version: 3.11  # 覆盖系统高版本
+    cache: 'pip'
 
-      # 若系统 Python 版本不够，仍需装 3.11（但 macOS 环境预装较新，可能可跳过）
-      - name: 按需安装 Python 3.11（可选，若系统版本够则注释）
-        if: ${{ false }}  # 手动控制是否执行，测试时可改为 true
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.11
+- name: 验证 Python 版本
+  run: |
+    python3.11 --version  # 确保是 3.11.x
+    which python3.11     # 确认路径
 
       - name: Build Custom Pyodide
         uses: jobovy/pyodide-buildpackage-action@v1.0.0
