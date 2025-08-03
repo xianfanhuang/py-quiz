@@ -1,0 +1,356 @@
+[
+{
+"id": 5,
+"question": "Python中，以下哪个是注释的正确写法？",
+"options": [
+"// 这是注释",
+"# 这是注释",
+"/* 这是注释 /",
+"-- 这是注释"
+],
+"correct": 1,
+"explanation": "Python中使用井号 # 表示单行注释，/ */ 是C语言等的注释方式，// 常见于JavaScript等，-- 常见于SQL等。",
+"visualization_code": "# 这是单行注释\nprint('Hello World')  # 这也是注释，在代码后面",
+"difficulty": "easy",
+"category": "基础语法"
+},
+{
+"id": 6,
+"question": "以下哪个不是Python的基本数据类型？",
+"options": [
+"int",
+"float",
+"array",
+"bool"
+],
+"correct": 2,
+"explanation": "Python的基本数据类型包括整数（int）、浮点数（float）、布尔值（bool）、字符串（str）等，array不是基本数据类型，需通过模块引入。",
+"visualization_code": "a = 10  # int\nb = 3.14  # float\nc = True  # bool\nd = 'hello'  # str\nprint(type(a), type(b), type(c), type(d))",
+"difficulty": "easy",
+"category": "数据类型"
+},
+{
+"id": 7,
+"question": "Python中，如何获取列表的长度？",
+"options": [
+"len(list)",
+"length(list)",
+"list.len()",
+"list.length()"
+],
+"correct": 0,
+"explanation": "Python内置函数 len() 可用于获取列表、字符串等序列的长度。",
+"visualization_code": "my_list = [1, 2, 3, 4, 5]\nprint(f'列表长度: {len(my_list)}')",
+"difficulty": "easy",
+"category": "列表"
+},
+{
+"id": 8,
+"question": "以下哪个语句可以实现循环输出1到5？",
+"options": [
+"for i in range(1, 6): print(i)",
+"for i in range(1, 5): print(i)",
+"for i in 1 to 5: print(i)",
+"loop i from 1 to 5: print(i)"
+],
+"correct": 0,
+"explanation": "range(1, 6) 生成的序列是1、2、3、4、5，range函数的结束参数是开区间，不包含该值。",
+"visualization_code": "for i in range(1, 6):\n    print(i)",
+"difficulty": "easy",
+"category": "循环"
+},
+{
+"id": 9,
+"question": "Python中，字典的键和值用什么符号分隔？",
+"options": [
+"冒号 :",
+"等于号 =",
+"逗号 ,",
+"分号 ;"
+],
+"correct": 0,
+"explanation": "字典中键和值的格式为 键: 值，多个键值对之间用逗号分隔。",
+"visualization_code": "my_dict = {'name': 'Python', 'version': 3.10}\nprint(my_dict)",
+"difficulty": "easy",
+"category": "字典"
+},
+{
+"id": 10,
+"question": "以下哪个表达式的结果为True？",
+"options": [
+"3 > 2 and 1 < 0",
+"3 > 2 or 1 < 0",
+"not (3 > 2)",
+"5 == '5'"
+],
+"correct": 1,
+"explanation": "or 运算符只要有一个条件为True，结果就为True，3>2为True，所以整体结果为True。",
+"visualization_code": "print(3 > 2 or 1 < 0)  # True\nprint(3 > 2 and 1 < 0)  # False\nprint(not (3 > 2))  # False\nprint(5 == '5')  # False",
+"difficulty": "easy",
+"category": "运算符"
+},
+{
+"id": 11,
+"question": "Python中，定义函数使用哪个关键字？",
+"options": [
+"def",
+"function",
+"func",
+"define"
+],
+"correct": 0,
+"explanation": "Python中使用 def 关键字定义函数，格式为 def 函数名(参数):。",
+"visualization_code": "def add(a, b):\n    return a + b\n\nprint(add(2, 3))  # 5",
+"difficulty": "easy",
+"category": "函数"
+},
+{
+"id": 12,
+"question": "以下哪个方法可以向列表末尾添加元素？",
+"options": [
+"append()",
+"add()",
+"insert()",
+"push()"
+],
+"correct": 0,
+"explanation": "列表的 append() 方法用于在列表末尾添加一个元素，insert() 用于在指定位置插入元素。",
+"visualization_code": "my_list = [1, 2, 3]\nmy_list.append(4)\nprint(my_list)  # [1, 2, 3, 4]",
+"difficulty": "easy",
+"category": "列表"
+},
+{
+"id": 13,
+"question": "Python中，以下哪个是导入整个模块的正确语句？",
+"options": [
+"import math",
+"include math",
+"using math",
+"require math"
+],
+"correct": 0,
+"explanation": "Python使用 import 关键字导入模块，include常见于C语言，using常见于C#等。",
+"visualization_code": "import math\nprint(math.pi)  # 3.141592653589793",
+"difficulty": "easy",
+"category": "模块"
+},
+{
+"id": 14,
+"question": "以下哪个语句可以捕获程序中的异常？",
+"options": [
+"try...except",
+"catch...throw",
+"if...else",
+"while...break"
+],
+"correct": 0,
+"explanation": "Python使用 try...except 语句捕获和处理异常，try块包含可能出错的代码，except块处理异常。",
+"visualization_code": "try:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print('除数不能为0')",
+"difficulty": "medium",
+"category": "异常处理"
+},
+{
+"id": 15,
+"question": "Python中，字符串的split()方法的作用是？",
+"options": [
+"将字符串分割成列表",
+"将列表拼接成字符串",
+"去除字符串两端的空格",
+"将字符串转换为大写"
+],
+"correct": 0,
+"explanation": "split() 方法根据指定的分隔符将字符串分割成多个子串，返回一个列表。",
+"visualization_code": "text = 'Python is fun'\nwords = text.split()\nprint(words)  # ['Python', 'is', 'fun']",
+"difficulty": "medium",
+"category": "字符串"
+},
+{
+"id": 16,
+"question": "以下哪个数据结构是不可变的？",
+"options": [
+"元组 tuple",
+"列表 list",
+"字典 dict",
+"集合 set"
+],
+"correct": 0,
+"explanation": "元组一旦创建，其元素不能被修改、添加或删除，是不可变的；列表、字典、集合都是可变的。",
+"visualization_code": "my_tuple = (1, 2, 3)\n# 尝试修改元组元素会报错\n# my_tuple[0] = 4  # TypeError",
+"difficulty": "medium",
+"category": "数据类型"
+},
+{
+"id": 17,
+"question": "Python中，如何判断一个元素是否在列表中？",
+"options": [
+"使用 in 关键字",
+"使用 contains() 方法",
+"使用 has() 方法",
+"使用 exist() 方法"
+],
+"correct": 0,
+"explanation": "in 关键字可用于判断元素是否在列表、字符串、字典等容器中，返回布尔值。",
+"visualization_code": "my_list = [10, 20, 30]\nprint(20 in my_list)  # True\nprint(40 in my_list)  # False",
+"difficulty": "easy",
+"category": "列表"
+},
+{
+"id": 18,
+"question": "以下哪个循环适合在条件为真时重复执行？",
+"options": [
+"while 循环",
+"for 循环",
+"do...while 循环",
+"loop 循环"
+],
+"correct": 0,
+"explanation": "while 循环根据条件判断是否执行循环体，条件为True时执行，适合不确定循环次数的场景；for循环常用于遍历序列。",
+"visualization_code": "count = 0\nwhile count < 5:\n    print(count)\n    count += 1",
+"difficulty": "easy",
+"category": "循环"
+},
+{
+"id": 19,
+"question": "Python中，字典的get()方法的作用是？",
+"options": [
+"获取指定键的值，不存在时返回默认值",
+"向字典中添加键值对",
+"删除字典中的指定键值对",
+"判断键是否在字典中"
+],
+"correct": 0,
+"explanation": "dict.get(key, default) 用于获取指定键的值，若键不存在则返回default（默认None）。",
+"visualization_code": "my_dict = {'name': 'Alice'}\nprint(my_dict.get('name'))  # Alice\nprint(my_dict.get('age', 18))  # 18（键不存在，返回默认值）",
+"difficulty": "medium",
+"category": "字典"
+},
+{
+"id": 20,
+"question": "以下哪个表达式的结果是5？",
+"options": [
+"10 // 2",
+"10 / 2",
+"10 % 3",
+"2 3"
+],
+"correct": 0,
+"explanation": "// 是地板除法，返回整数结果，10//2=5；/ 返回浮点数10/2=5.0；% 是取余10%3=1； 是幂运算23=8。",
+"visualization_code": "print(10 // 2)  # 5\nprint(10 / 2)  # 5.0\nprint(10 % 3)  # 1\nprint(2 3)  # 8",
+"difficulty": "easy",
+"category": "运算符"
+},
+{
+"id": 21,
+"question": "Python中，函数返回值使用哪个关键字？",
+"options": [
+"return",
+"back",
+"give",
+"output"
+],
+"correct": 0,
+"explanation": "函数中使用 return 关键字返回结果，执行到return语句后函数会结束。",
+"visualization_code": "def multiply(a, b):\n    return a * b\n\nprint(multiply(3, 4))  # 12",
+"difficulty": "easy",
+"category": "函数"
+},
+{
+"id": 22,
+"question": "以下哪个方法可以删除列表中的指定索引元素？",
+"options": [
+"pop()",
+"remove()",
+"delete()",
+"discard()"
+],
+"correct": 0,
+"explanation": "pop(index) 方法删除列表中指定索引的元素，并返回该元素；remove() 根据元素值删除。",
+"visualization_code": "my_list = [10, 20, 30]\nremoved = my_list.pop(1)\nprint(my_list)  # [10, 30]\nprint(removed)  # 20",
+"difficulty": "medium",
+"category": "列表"
+},
+{
+"id": 23,
+"question": "以下哪个语句可以导入模块中的特定函数？",
+"options": [
+"from math import sqrt",
+"import sqrt from math",
+"include sqrt in math",
+"using math.sqrt"
+],
+"correct": 0,
+"explanation": "from 模块 import 函数 语句可以导入模块中的特定函数，使用时无需加模块名前缀。",
+"visualization_code": "from math import sqrt\nprint(sqrt(16))  # 4.0",
+"difficulty": "medium",
+"category": "模块"
+},
+{
+"id": 24,
+"question": "Python中，raise 关键字的作用是？",
+"options": [
+"主动抛出异常",
+"捕获异常",
+"忽略异常",
+"终止程序"
+],
+"correct": 0,
+"explanation": "raise 用于主动抛出指定的异常，可以在满足特定条件时手动触发异常处理机制。",
+"visualization_code": "def check_age(age):\n    if age < 0:\n        raise ValueError('年龄不能为负数')\n\ntry:\n    check_age(-5)\nexcept ValueError as e:\n    print(e)  # 年龄不能为负数",
+"difficulty": "medium",
+"category": "异常处理"
+},
+{
+"id": 25,
+"question": "以下哪个方法可以将列表转换为字符串？",
+"options": [
+"join()",
+"split()",
+"concat()",
+"merge()"
+],
+"correct": 0,
+"explanation": "字符串的 join() 方法可以将列表中的字符串元素拼接成一个新字符串，列表元素需为字符串类型。",
+"visualization_code": "words = ['Hello', 'World']\nsentence = ' '.join(words)\nprint(sentence)  # Hello World",
+"difficulty": "medium",
+"category": "字符串"
+},
+{
+"id": 26,
+"question": "Python中，集合的主要特点是？",
+"options": [
+"元素唯一且无序",
+"元素可重复且有序",
+"元素唯一且有序",
+"元素可重复且无序"
+],
+"correct": 0,
+"explanation": "集合中的元素是唯一的（自动去重），且没有固定顺序，不能通过索引访问。",
+"visualization_code": "my_set = {1, 2, 2, 3, 3, 3}\nprint(my_set)  # {1, 2, 3}（自动去重）",
+"difficulty": "medium",
+"category": "集合"
+},
+{
+"id": 27,
+"question": "以下哪个语句可以跳出当前循环？",
+"options": [
+"break",
+"continue",
+"exit",
+"return"
+],
+"correct": 0,
+"explanation": "break 语句用于跳出当前循环，不再执行循环体中剩余的语句；continue 用于跳过本次循环剩余语句，进入下一次循环。",
+"visualization_code": "for i in range(10):\n    if i == 5:\n        break\n    print(i)  # 输出0-4",
+"difficulty": "easy",
+"category": "循环"
+},
+{
+"id": 28,
+"question": "Python中，如何向字典中添加新的键值对？",
+"options": [
+"dict[key] = value",
+"dict.add(key, value)",
+"dict.insert(key, value)",
+"dict.append(key: value)"
+],
+"correct": 0
