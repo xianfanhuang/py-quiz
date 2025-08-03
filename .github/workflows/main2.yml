@@ -83,7 +83,7 @@ jobs:
       - name: 验证构建结果
         run: |
           if [ ! -f "dist/static/pyodide/pyodide.js" ]; then
-            echo "❌ 错误：未找到 Pyodide 核心文件"
+            echo "❌ 错误：未找到  Pyodide 核心文件"
             echo "dist 目录内容:"
             ls -lR dist || true
             exit 1
