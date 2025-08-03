@@ -17,24 +17,33 @@ jobs:
           fetch-depth: 0
 
       # 使用Docker容器进行构建
-      - name: 构建自定义 Pyodide
-        run: |
-          docker run --rm -v "$PWD":/workspace -w /workspace ubuntu:22.04 /bin/bash -c '
-            # 安装构建依赖
-            apt-get update && apt-get install -y \
-                software-properties-common \
-                build-essential \
-                cmake \
-                nodejs \
-                npm \
-                git \
-                curl \
-                make \
-                g++
-            
-            # 安装Python 3.11
-
-            add-apt-repository -y ppa:deadsnakes/ppa
+- name: 构建自定义 Pyodide
+  run: |
+    # 创建非交互式安装脚本
+    cat > build.sh << 'EOL'
+    #!/bin/bash
+    set -ex
+    
+    # 设置非交互式环境
+    export DEBIAN_FRONTEND=noninteractive
+    export TZ=Asia/Shanghai
+    
+    # 安装依赖
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        software-properties-common \
+        build-essential \
+        cmake \
+        nodejs \
+        npm \
+        git \
+        curl \
+        make \
+        g++
+    
+    # 添加Python PPA
+    add-apt-repository -y ppa:deadsnakes/ppa
+    
     # 自动安装Python 3.11（跳过时区配置）
     apt-get install -y --no-install-recommends \
         python3.11 \
@@ -47,21 +56,12 @@ jobs:
     dpkg-reconfigure --frontend noninteractive tzdata
     
     # 继续构建...
-            apt-get install -y python3.11 python3.11-dev python3.11-venv
-            
-            # 创建虚拟环境
-            python3.11 -m venv /venv
-            source /venv/bin/activate
-            
-            # 安装构建工具
-            pip install pyodide-build==0.25.0
-            
-            # 构建Pyodide
-            pyodide build --output-dir ./dist/static/pyodide --meta-yaml-path ./pyodide_meta.yaml
-            
-            # 修复权限问题
-            chmod -R 777 ./dist
-          '
+    python3.11 -m venv /venv
+    source /venv/bin/activate
+    pip install pyodide-build==0.25.0
+    pyodide build --output-dir ./dist/static/pyodide --meta-yaml-path ./pyodide_meta.yaml
+    chmod -R 777 ./dist
+    EOL
 
       - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
