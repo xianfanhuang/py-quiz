@@ -16,38 +16,41 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 安装 Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
-          cache-dependency-path: ''
-
-      # 关键修改：添加ID用于输出路径
-      - name: 检查 Python 版本
-        id: python-info
-        run: |
-          python3.11 --version
-          echo "path=$(which python3.11)" >> $GITHUB_OUTPUT
-
-      # 关键修改：传递Python路径
+      # 关键修改：使用自定义Docker容器
       - name: 构建自定义 Pyodide
-        uses: jobovy/pyodide-buildpackage-action@v1.0.0
+        uses: docker://ubuntu:22.04
         with:
-          pyodide-tag: "0.25.0"
-          meta-yaml-path: ./pyodide_meta.yaml
-          output-dir: ./dist/static/pyodide
+          entrypoint: /bin/bash
         env:
-          PYTHON_EXECUTABLE: ${{ steps.python-info.outputs.path }}
+          PYODIDE_VERSION: 0.25.0
+        run: |
+          # 在容器内部安装Python 3.11
+          apt-get update
+          apt-get install -y software-properties-common
+          add-apt-repository -y ppa:deadsnakes/ppa
+          apt-get install -y python3.11 python3.11-dev python3.11-venv
+          
+          # 安装构建依赖
+          apt-get install -y cmake nodejs npm git curl make g++
+          
+          # 创建Python 3.11虚拟环境
+          python3.11 -m venv /pyodide-venv
+          source /pyodide-venv/bin/activate
+          
+          # 安装Pyodide构建工具
+          pip install pyodide-build==$PYODIDE_VERSION
+          
+          # 构建Pyodide
+          pyodide build --output-dir ./dist/static/pyodide --meta-yaml-path ./pyodide_meta.yaml
+          
+          # 修复权限问题
+          chmod -R 777 ./dist
 
       - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-
-      # 移除清理步骤（会删除构建产物）
-      # - name: 清理缓存（已移除）
 
 permissions:
   contents: write
