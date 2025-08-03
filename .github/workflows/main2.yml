@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
           
-      # 构建 Pyodide（Docker 方案）
+      # 构建 Pyodide（带 Emscripten 安装）
       - name: Docker 构建 Pyodide
         run: |
           # 创建构建脚本
@@ -24,17 +24,15 @@ jobs:
           #!/bin/bash
           set -ex
           
-          # 关键修复：设置非交互环境
+          # 1. 设置非交互环境
           export DEBIAN_FRONTEND=noninteractive
           export TZ=Asia/Shanghai
-          
-          # 1. 预配置时区（避免交互提示）
           ln -fs /usr/share/zoneinfo/$TZ /etc/localtime
           apt-get update
           apt-get install -y tzdata
           dpkg-reconfigure --frontend noninteractive tzdata
           
-          # 2. 安装构建依赖
+          # 2. 安装基础依赖
           apt-get install -y \
             software-properties-common \
             build-essential \
@@ -44,27 +42,42 @@ jobs:
             git \
             curl \
             make \
-            g++
+            g++ \
+            python3 \
+            python3-pip \
+            python3-venv
           
           # 3. 安装 Python 3.11
           add-apt-repository -y ppa:deadsnakes/ppa
           apt-get install -y python3.11 python3.11-dev python3.11-venv
           
-          # 4. 创建虚拟环境
+          # 4. 安装 Emscripten 3.1.46（核心修复）
+          echo "安装 Emscripten 3.1.46..."
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install 3.1.46
+          ./emsdk activate 3.1.46
+          source ./emsdkenv.sh
+          cd ..
+          
+          # 5. 验证 Emscripten
+          emcc --version
+          
+          # 6. 创建虚拟环境
           python3.11 -m venv /venv
           source /venv/bin/activate
           
-          # 5. 安装 Pyodide 构建工具
+          # 7. 安装 Pyodide 构建工具
           pip install pyodide-build==0.25.0
           
-          # 6. 执行构建
+          # 8. 执行构建
           pyodide build --output-dir ./dist/static/pyodide --meta-yaml-path ./pyodide_meta.yaml
           
-          # 7. 修复权限问题
+          # 9. 修复权限
           chmod -R 777 ./dist
           EOL
           
-          # 执行 Docker 构建（关键时区设置）
+          # 执行 Docker 构建
           docker run --rm \
             -e DEBIAN_FRONTEND=noninteractive \
             -e TZ=Asia/Shanghai \
@@ -73,25 +86,10 @@ jobs:
             ubuntu:22.04 \
             bash -c "apt-get update && bash build.sh"
           
-          # 调试：显示构建结果
-          echo "构建产物列表:"
-          find ./dist -type f | sort
-          echo "构建产物大小:"
-          du -sh ./dist
-
-      # 验证构建产物
-      - name: 验证构建结果
-        run: |
-          if [ ! -f "dist/static/pyodide/pyodide.js" ]; then
-            echo "❌ 错误：未找到  Pyodide 核心文件"
-            echo "dist 目录内容:"
-            ls -lR dist || true
-            exit 1
-          fi
-          
-          echo "✅ Pyodide 构建成功！"
-          echo "核心文件: dist/static/pyodide/pyodide.js"
-          echo "文件大小: $(du -h dist/static/pyodide/pyodide.js | cut -f1)"
+          # 调试输出
+          echo "Pyodide 构建完成！"
+          echo "核心文件检查:"
+          ls -lh dist/static/pyodide/pyodide.js
 
       # 部署到 GitHub Pages
       - name: 部署到 GitHub Pages
@@ -101,8 +99,6 @@ jobs:
           publish_dir: ./dist
           publish_branch: gh-pages
           force_orphan: true
-          user_name: 'GitHub Actions'
-          user_email: 'actions@github.com'
 
 permissions:
   contents: write
