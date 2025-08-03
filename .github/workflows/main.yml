@@ -34,7 +34,7 @@ jobs:
 
       # 2. 安装 Python 3.11（关键步骤）
       - name: 安装 Python 3.11
-        uses: actions/setup-python@v5  
+        uses: actions/setup-python@v4
         with:
           # 指定 Python 版本
           python-version: 3.11  
