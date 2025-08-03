@@ -2,7 +2,7 @@ name: Build Pyodide & Deploy to GitHub Pages  # 可修改名称，明确工作�
 on:
   push:
     branches: [ main ]  # 保留原有触发条件
-jobs:
+job:
   build-and-deploy:  # 可修改job名称，体现“构建+部署”
     runs-on: ubuntu-latest  # 保留原有运行环境
     steps:
