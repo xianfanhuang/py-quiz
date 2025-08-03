@@ -1,0 +1,8 @@
+- name: 构建自定义 Pyodide
+  uses: jobovy/pyodide-buildpackage-action@v1.0.0
+  with:
+    pyodide-tag: 0.25.0
+    meta-yaml-path: ./pyodide_meta.yaml
+    output-dir: ./dist/static/pyodide
+  env:
+    DOCKER_RUN_ARGS: "-v /opt/hostedtoolcache/Python/3.11.13/x64/bin:/opt/hostedtoolcache/Python/3.11.13/x64/bin"
