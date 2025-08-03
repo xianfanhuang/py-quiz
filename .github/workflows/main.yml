@@ -1,23 +1,24 @@
-name: Build Pyodide & Deploy to GitHub Pages  # 可修改名称，明确工作流功能
+name: Build Pyodide & Deploy to GitHub Pages  # 清晰体现工作流功能
 on:
   push:
-    branches: [ main ]  # 保留原有触发条件
-job:
-  build-and-deploy:  # 可修改job名称，体现“构建+部署”
-    runs-on: ubuntu-latest  # 保留原有运行环境
+    branches: [main]  # 代码推送到 main 分支时触发
+
+jobs:  # 注意原内容是 job（单数），这里修正为 jobs（复数，GitHub Actions 语法要求）
+  build-and-deploy:  # 体现“构建 + 部署”的 job 名称，语义清晰
+    runs-on: ubuntu-latest  # 运行环境保持不变
     steps:
       - name: 拉取代码
-        uses: actions/checkout@v4  # 保留原有拉取步骤
-      
-  - name: Build Custom Pyodide
-  uses: jobovy/pyodide-buildpackage-action@v1.0.0
-  with:
-    # 原 'pyodide-version' 改为 'pyodide-tag'（用标签指定版本，如 0.25.0）
-    pyodide-tag: 0.25.0  
-    # 原 'packages' 需写进 meta.yaml 文件，通过 'meta-yaml-path' 引用
-    meta-yaml-path: './pyodide_meta.yaml'  
-    output-dir: './dist/static/pyodide'
+        uses: actions/checkout@v4  # 拉取仓库代码到运行环境
+
+      - name: Build Custom Pyodide  # 构建自定义 Pyodide 环境
+        uses: jobovy/pyodide-buildpackage-action@v1.0.0
+        with:
+          pyodide-tag: 0.25.0  # 用标签指定 Pyodide 版本，替代原版本参数
+          meta-yaml-path: ./pyodide_meta.yaml  # 指向依赖配置文件
+          output-dir: ./dist/static/pyodide  # 输出构建产物的目录
+
+      - name: Deploy to GitHub Pages  # 新增部署步骤，使用正确动作
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./  # 部署目录包含新增的Pyodide资
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # 利用 GitHub 密钥授权部署
+          publish_dir: ./dist  # 假设前端构建产物在 dist 目录，按需调整；若为根目录部署，确保内容正确且无敏感文件
