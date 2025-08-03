@@ -1,4 +1,4 @@
-name: Build Pyodide & Deploy to GitHub Pages
+name: Deploy Pyodide with Matplotlib and Pillow
 
 on:
   push:
@@ -7,115 +7,83 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15  # 设置超时时间
 
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          
-      # 修复1：使用正确的官方镜像名称
-      - name: 构建Pyodide（官方镜像）
+
+      - name: 创建部署目录
         run: |
+          # 创建基本目录结构
           mkdir -p dist/static/pyodide
+          mkdir -p dist/static/css
+          mkdir -p dist/static/js
           
-          # 修正镜像名称（去掉空格）
-          docker run --rm \
-            -v "$PWD":/work \
-            -w /work \
-            pyodide/pyodide:0.25.0 \
-            pyodide build --output-dir ./dist/static/pyodide --meta-yaml-path ./pyodide_meta.yaml
-          
-          echo "构建产物列表:"
-          find ./dist -type f | sort
-          
-          sudo chown -R $USER:$USER ./dist
+          # 复制前端文件
+          cp index.html dist/
+          cp -r static/css dist/static/
+          cp -r static/js dist/static/
 
-      # 修复2：优化手动构建方案
-      - name: 构建Pyodide（手动）
-        if: failure()  # 仅当官方镜像构建失败时执行
+      - name: 下载 Pyodide 核心文件
         run: |
-          cat > build.sh << 'EOL'
-          #!/bin/bash
-          set -ex
+          cd dist/static/pyodide
+          PYODIDE_VERSION=0.25.0
+          BASE_URL="https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full"
           
-          export DEBIAN_FRONTEND=noninteractive
-          export TZ=Asia/Shanghai
+          # 下载核心文件
+          curl -O ${BASE_URL}/pyodide.js
+          curl -O ${BASE_URL}/pyodide.asm.js
+          curl -O ${BASE_URL}/pyodide.asm.wasm
+          curl -O ${BASE_URL}/repodata.json
           
-          # 1. 安装基础依赖
-          apt-get update
-          apt-get install -y --no-install-recommends \
-              build-essential \
-              cmake \
-              nodejs \
-              npm \
-              git \
-              curl \
-              make \
-              g++ \
-              libssl-dev \
-              zlib1g-dev \
-              libffi-dev \
-              libsqlite3-dev \
-              libbz2-dev \
-              liblzma-dev \
-              tk-dev
-          
-          # 2. 直接从源代码编译Python 3.11（避免PPA问题）
-          PYTHON_VERSION=3.11.13
-          curl -O https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz
-          tar -xzf Python-${PYTHON_VERSION}.tgz
-          cd Python-${PYTHON_VERSION}
-          ./configure --enable-optimizations
-          make -j $(nproc)
-          make altinstall
-          cd ..
-          rm -rf Python-${PYTHON_VERSION}*
-          
-          # 3. 验证Python安装
-          python3.11 --version
-          
-          # 4. 创建虚拟环境
-          python3.11 -m venv /venv
-          source /venv/bin/activate
-          
-          # 5. 安装Pyodide构建工具
-          pip install pyodide-build==0.25.0
-          
-          # 6. 执行构建
-          pyodide build --output-dir ./dist/static/pyodide --meta-yaml-path ./pyodide_meta.yaml
-          
-          # 7. 修复权限
-          chmod -R 777 ./dist
-          EOL
-          
-          # 执行构建
-          docker run --rm -v "$PWD":/work -w /work ubuntu:22.04 bash build.sh
-          
-          echo "手动构建产物列表:"
-          find ./dist -type f | sort
+          echo "Pyodide 核心文件下载完成"
 
-      - name: 验证构建产物
+      - name: 下载 matplotlib 和 pillow
         run: |
-          if [ ! -d "dist" ]; then
-            echo "❌ 错误：dist目录未生成"
-            exit 1
-          fi
+          cd dist/static/pyodide
+          PYODIDE_VERSION=0.25.0
+          BASE_URL="https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full"
           
-          if [ ! -f "dist/static/pyodide/pyodide.js" ]; then
-            echo "❌ 错误：pyodide.js未生成"
-            echo "当前目录内容:"
-            ls -la
-            echo "dist目录内容:"
-            ls -la dist || true
-            echo "static目录内容:"
-            ls -la dist/static || true
-            exit 1
-          fi
+          # 下载 matplotlib 及其依赖
+          curl -O ${BASE_URL}/matplotlib.js
+          curl -O ${BASE_URL}/matplotlib.data
           
-          echo "✅ 构建产物验证通过"
+          # 下载 pillow (PIL)
+          curl -O ${BASE_URL}/PIL.js
+          curl -O ${BASE_URL}/PIL.data
+          
+          # 下载 matplotlib 的依赖
+          curl -O ${BASE_URL}/numpy.js
+          curl -O ${BASE_URL}/numpy.data
+          curl -O ${BASE_URL}/kiwisolver.js
+          curl -O ${BASE_URL}/kiwisolver.data
+          curl -O ${BASE_URL}/packaging.js
+          curl -O ${BASE_URL}/packaging.data
+          
+          echo "matplotlib 和 pillow 下载完成"
+
+      - name: 更新 HTML 加载路径
+        run: |
+          # 修改 index.html 中的 Pyodide 加载路径
+          sed -i 's|https://cdn.jsdelivr.net/pyodide/.*/full/|static/pyodide/|g' dist/index.html
+          
+          # 确保使用相对路径
+          sed -i 's|/static/|static/|g' dist/index.html
+          
+          # 添加预加载包
+          echo '<script>' >> dist/index.html
+          echo '  async function main() {' >> dist/index.html
+          echo '    const pyodide = await loadPyodide({' >> dist/index.html
+          echo '      indexURL: "static/pyodide",' >> dist/index.html
+          echo '      packages: ["matplotlib", "PIL"]' >> dist/index.html
+          echo '    });' >> dist/index.html
+          echo '    // 您的 Python 代码在这里' >> dist/index.html
+          echo '  }' >> dist/index.html
+          echo '  main();' >> dist/index.html
+          echo '</script>' >> dist/index.html
 
       - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -124,6 +92,8 @@ jobs:
           publish_dir: ./dist
           publish_branch: gh-pages
           force_orphan: true
+          user_name: 'GitHub Actions'
+          user_email: 'actions@github.com'
 
 permissions:
   contents: write
