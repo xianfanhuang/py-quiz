@@ -9,14 +9,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
-      # 使用官方Pyodide镜像（推荐方案）
+
       - name: 构建Pyodide（官方镜像）
         run: |
           # 创建输出目录
@@ -36,7 +34,6 @@ jobs:
           # 修复权限问题
           sudo chown -R $USER:$USER ./dist
 
-      # 备选方案：手动构建（如果官方镜像不可用）
       - name: 构建Pyodide（手动）
         if: failure()  # 仅当官方镜像构建失败时执行
         run: |
