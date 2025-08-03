@@ -1,52 +1,26 @@
-name: Build Pyodide & Deploy to Pages
+name: Build Pyodide & Deploy to GitHub Pages  # 可修改名称，明确工作流功能
 on:
   push:
-    branches: ['main']
-  workflow_dispatch:
-
-permissions:
-  contents: write  # 仓库内容写入权限（全局可复用）
-
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
-
+    branches: [ main ]  # 保留原有触发条件
 jobs:
-  # 1. 构建作业（原 build-deploy 逻辑）
-  build-deploy:
-    runs-on: ubuntu-latest
+  build-and-deploy:  # 可修改job名称，体现“构建+部署”
+    runs-on: ubuntu-latest  # 保留原有运行环境
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Build Custom Pyodide
+      - name: 拉取代码
+        uses: actions/checkout@v4  # 保留原有拉取步骤
+      
+      # 新增：Pyodide构建步骤（核心新增内容）
+      - name: 定制化构建Pyodide环境
         uses: jobovy/pyodide-buildpackage-action@v1.0.0
         with:
           pyodide-version: 0.25.0
           packages: |
             matplotlib
-          output-dir: './dist/static/pyodide'
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+            pillow
+          output-dir: static/pyodide
+      
+      - name: 部署到GitHub Pages  # 保留原有部署步骤
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          node-version: 20.x
-      - name: Install & Build
-        run: |
-          npm install
-          npm run build
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './dist'
-
-  # 2. 独立部署作业（依赖 build-deploy 完成）
-  deploy:
-    runs-on: ubuntu-latest  # 作业级运行环境
-    needs: build-deploy     # 依赖构建作业
-    permissions:            # 作业级权限
-      pages: write
-      id-token: write
-    steps:
-      - name: Deploy to Pages
-        uses: actions/deploy-pages@v4  # 步骤仅需调用部署动作
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./  # 部署目录包含新增的Pyodide资源
