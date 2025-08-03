@@ -24,7 +24,7 @@ jobs:
           #!/bin/bash
           set -ex
           
-          # 1. 设置非交互环境
+          # 1. 设置非交环境
           export DEBIAN_FRONTEND=noninteractive
           export TZ=Asia/Shanghai
           ln -fs /usr/share/zoneinfo/$TZ /etc/localtime
