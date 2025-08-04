@@ -120,3 +120,269 @@
     "explanation": "range(5) 生成从 0 开始、小于 5 的整数，即 0,1,2,3,4；range(1,5) 生成 1-4 的整数。"
   }
 ]
+{
+  "questions": [
+    // 一、变量与数据类型
+    {
+      "category": "变量与数据类型",
+      "type": "单选",
+      "question": "以下哪个数据类型是不可变的？",
+      "options": ["A. 列表（List）", "B. 字典（Dictionary）", "C. 元组（Tuple）", "D. 集合（Set）"],
+      "answer": "C",
+      "explanation": "元组初始化后元素不可变，其他为可变类型。"
+    },
+    {
+      "category": "变量与数据类型",
+      "type": "单选",
+      "question": "a = [1, 2, 3]，b = a.copy()，修改a[0] = 0后，b的值会变化吗？",
+      "options": ["A. 会变化", "B. 不会变化", "C. 报错", "D. 不确定"],
+      "answer": "B",
+      "explanation": "浅拷贝仅复制第一层引用，原列表元素修改不影响拷贝对象。"
+    },
+    {
+      "category": "变量与数据类型",
+      "type": "多选",
+      "question": "字典的键（Key）必须满足哪些条件？",
+      "options": ["A. 唯一", "B. 不可变", "C. 字符串类型", "D. 整数类型"],
+      "answer": ["A", "B"],
+      "explanation": "键必须唯一且不可变，类型可为任意不可变对象如元组、字符串。"
+    },
+    {
+      "category": "变量与数据类型",
+      "type": "判断",
+      "question": "集合（Set）中的元素是无序的，但可以通过索引访问。",
+      "answer": "错误",
+      "explanation": "集合无序且不可索引，依赖成员运算符in查找。"
+    },
+    {
+      "category": "变量与数据类型",
+      "type": "代码输出",
+      "question": "写出下列代码的输出结果：s = \"Hello, World!\"; print(s[::-1]); print(s.split(\",\"))",
+      "answer": "!dlroW ,olleH\n['Hello', ' World!']",
+      "explanation": "切片[::-1]反转字符串，split按逗号分割。"
+    },
+    {
+      "category": "变量与数据类型",
+      "type": "简答",
+      "question": "简述列表（List）和元组（Tuple）的核心区别。",
+      "answer": "列表可变（支持增删改）、灵活用于动态数据；元组不可变、适合固定数据（如坐标、配置）以提升性能和安全性。",
+      "explanation": ""
+    },
+
+    // 二、运算符与表达式
+    {
+      "category": "运算符与表达式",
+      "type": "单选",
+      "question": "以下运算符优先级最高的是？",
+      "options": ["A. and", "B. ==", "C. +", "D. **"],
+      "answer": "D",
+      "explanation": "运算符优先级顺序：** → ~ + -（正负号）→ * / % // → + - → >> << → & → ^ | → <= < > >= → == != → is is not → in not in → not → and → or。"
+    },
+    {
+      "category": "运算符与表达式",
+      "type": "单选",
+      "question": "a = 5，b = 3，print(a > b and a < 10 or a == 5)的结果是？",
+      "options": ["A. True", "B. False", "C. 报错", "D. 不确定"],
+      "answer": "A",
+      "explanation": "逻辑短路：a > b为True，继续判断a < 10也为True，整个表达式为True（无需执行or右侧）。"
+    },
+    {
+      "category": "运算符与表达式",
+      "type": "多选",
+      "question": "以下哪些是合法的成员运算符使用场景？",
+      "options": ["A. if 2 in [1, 3, 5]", "B. if \"a\" in {\"a\": 1}", "C. if 3 in (1, 2, 3)", "D. if 5 in {5, 6}"],
+      "answer": ["A", "C", "D"],
+      "explanation": "字典键判断用in，但值判断需用values()方法：if 1 in {\"a\":1}.values()。"
+    },
+    {
+      "category": "运算符与表达式",
+      "type": "纠错",
+      "question": "找出并修正错误：x = 10; if x >= 5 or <= 15: print(\"In range\")",
+      "answer": "改为if x >=5 or x <=15:（逻辑运算符两侧需完整条件）",
+      "explanation": ""
+    },
+
+    // 三、流程控制
+    {
+      "category": "流程控制",
+      "type": "单选",
+      "question": "以下哪种结构会导致无限循环？",
+      "options": ["A. for i in range(5): pass", "B. while True: break", "C. while 1 < 2: continue", "D. while False: print()"],
+      "answer": "C",
+      "explanation": "条件恒成立且无退出机制，continue仅跳过本次循环。"
+    },
+    {
+      "category": "流程控制",
+      "type": "单选",
+      "question": "循环中break和continue的区别是？",
+      "options": ["A. break退出循环，continue跳过当前迭代", "B. 无区别", "C. break跳过当前迭代", "D. continue退出循环"],
+      "answer": "A",
+      "explanation": ""
+    },
+    {
+      "category": "流程控制",
+      "type": "代码输出",
+      "question": "写出下列代码的输出：for i in range(3): for j in range(2): if i == j: break; print(i, j)",
+      "answer": "0 1\n1 0\n2 0\n2 1",
+      "explanation": "当i=j时，break退出内层循环，外层循环继续。"
+    },
+    {
+      "category": "流程控制",
+      "type": "应用",
+      "question": "用for循环计算1到10的偶数之和。",
+      "answer": "total = 0; for num in range(1, 11): if num % 2 == 0: total += num; print(total)  # 输出30",
+      "explanation": ""
+    },
+
+    // 四、函数
+    {
+      "category": "函数",
+      "type": "单选",
+      "question": "函数参数默认值应定义为哪种类型？",
+      "options": ["A. 可变类型（如列表）", "B. 不可变类型（如元组/字符串）", "C. 任意类型", "D. 布尔类型"],
+      "answer": "B",
+      "explanation": "避免可变默认值导致状态共享错误（如def f(a=[])在多次调用时会积累修改）。"
+    },
+    {
+      "category": "函数",
+      "type": "单选",
+      "question": "以下关于lambda函数的描述正确的是？",
+      "options": ["A. 必须有名称", "B. 只能有一个表达式", "C. 参数不能超过3个", "D. 返回值为None"],
+      "answer": "B",
+      "explanation": "匿名函数，表达式返回值即结果。"
+    },
+    {
+      "category": "函数",
+      "type": "代码输出",
+      "question": "写出输出结果：def add(a, b=2): return a + b; print(add(3)); print(add(3, 5))",
+      "answer": "5\n8",
+      "explanation": "add(3)使用默认参数b=2，add(3,5)覆盖默认参数。"
+    },
+    {
+      "category": "函数",
+      "type": "简答",
+      "question": "函数参数类型中*args和**kwargs的作用是什么？",
+      "answer": "*args接收任意数量的位置参数（打包为元组）；**kwargs接收任意数量的关键字参数（打包为字典），用于灵活扩展函数功能。",
+      "explanation": ""
+    },
+
+    // 五、面向对象基础
+    {
+      "category": "面向对象基础",
+      "type": "单选",
+      "question": "子类继承父类时，构造方法__init__如何处理？",
+      "options": ["A. 必须重新定义", "B. 自动继承父类构造", "C. 通过super().__init__()调用父类构造", "D. 无需处理"],
+      "answer": "C",
+      "explanation": "子类通常需显式调用父类构造初始化父类属性。"
+    },
+    {
+      "category": "面向对象基础",
+      "type": "单选",
+      "question": "以下哪个是类属性（Class Attribute）？",
+      "options": ["A. 在__init__中定义的变量", "B. 使用self绑定的变量", "C. 在类体内直接定义的变量", "D. 实例方法中的局部变量"],
+      "answer": "C",
+      "explanation": "类属性直接定义在类层级，被所有实例共享。"
+    },
+    {
+      "category": "面向对象基础",
+      "type": "补全",
+      "question": "补全代码实现“动物”类继承：class Animal: def __init__(self, name): self.name = name; def speak(self): pass; class Dog(Animal): [补全speak方法]; d = Dog(\"Buddy\"); print(d.speak())  # 输出：Woof!",
+      "answer": "def speak(self): return \"Woof!\"",
+      "explanation": "子类覆盖父类抽象方法speak。"
+    },
+    {
+      "category": "面向对象基础",
+      "type": "判断",
+      "question": "实例化对象时，__init__方法自动被调用。",
+      "answer": "正确",
+      "explanation": "构造方法在创建实例时自动执行。"
+    },
+
+    // 六、文件操作
+    {
+      "category": "文件操作",
+      "type": "单选",
+      "question": "要以追加模式打开文件并写入内容，应使用哪种打开模式？",
+      "options": ["A. 'r'", "B. 'w'", "C. 'a'", "D. 'rb'"],
+      "answer": "C",
+      "explanation": "'a'追加模式，不会覆盖原有内容。"
+    },
+    {
+      "category": "文件操作",
+      "type": "单选",
+      "question": "读取文件时出现“文件不存在”错误，应捕获哪种异常？",
+      "options": ["A. TypeError", "B. FileNotFoundError", "C. IndexError", "D. PermissionError"],
+      "answer": "B",
+      "explanation": ""
+    },
+    {
+      "category": "文件操作",
+      "type": "操作",
+      "question": "用上下文管理器（with语句）读取文件内容并打印。",
+      "answer": "with open(\"example.txt\", \"r\") as f: content = f.read(); print(content)",
+      "explanation": "上下文管理器自动处理文件关闭，避免资源泄露。"
+    },
+    {
+      "category": "文件操作",
+      "type": "简答",
+      "question": "解释'w'和'a'模式的区别。",
+      "answer": "'w'（写入模式）会清空原文件内容并从头写入；'a'（追加模式）在文件末尾添加新内容，保留原有数据。",
+      "explanation": ""
+    },
+
+    // 七、异常处理
+    {
+      "category": "异常处理",
+      "type": "单选",
+      "question": "以下哪个顺序是正确的异常捕获优先级？",
+      "options": ["A. 具体异常 → 通用异常（Exception）", "B. 通用异常 → 具体异常", "C. 无顺序要求", "D. 仅捕获Exception"],
+      "answer": "A",
+      "explanation": "先处理子类异常，再处理父类异常避免遗漏。"
+    },
+    {
+      "category": "异常处理",
+      "type": "单选",
+      "question": "try-except块中，else子句在什么情况下执行？",
+      "options": ["A. 发生异常时", "B. 未发生异常时", "C. 无论是否异常", "D. 始终不执行"],
+      "answer": "B",
+      "explanation": ""
+    },
+    {
+      "category": "异常处理",
+      "type": "纠错",
+      "question": "修正错误（避免捕获过于宽泛的异常）：try: x = int(input(\"Enter a number: \")); except Exception as e: print(\"Invalid input\")",
+      "answer": "改为except ValueError as e:（具体捕获输入转换错误）",
+      "explanation": "精准捕获异常类型可提高代码可维护性。"
+    },
+    {
+      "category": "异常处理",
+      "type": "应用",
+      "question": "编写代码读取用户输入的年龄（整数），若输入非数字则提示错误。",
+      "answer": "try: age = int(input(\"Enter age: \")); print(f\"Age: {age}\"); except ValueError: print(\"Error: Age must be a number!\")",
+      "explanation": ""
+    },
+
+    // 八、综合应用题
+    {
+      "category": "综合应用",
+      "type": "应用",
+      "question": "将字符串\"apple,banana,cherry\"转换为列表，并删除长度小于5的元素。",
+      "answer": "fruits = \"apple,banana,cherry\".split(\",\"); filtered = [f for f in fruits if len(f) >=5]; print(filtered)  # ['banana', 'cherry']",
+      "explanation": "结合字符串分割与列表推导式筛选元素。"
+    },
+    {
+      "category": "综合应用",
+      "type": "应用",
+      "question": "打印1到100之间能被3整除但不能被5整除的数。",
+      "answer": "for num in range(1, 101): if num %3 ==0 and num%5 !=0: print(num, end=\" \")",
+      "explanation": "结合循环与多条件判断。"
+    },
+    {
+      "category": "综合应用",
+      "type": "应用",
+      "question": "编写函数统计文件中单词数量（假设单词用空格分隔）。",
+      "answer": "def count_words(filename): with open(filename, 'r') as f: text = f.read(); return len(text.split()); print(count_words(\"test.txt\"))  # 输出单词数",
+      "explanation": "结合函数定义与文件操作。"
+    }
+  ]
+}
