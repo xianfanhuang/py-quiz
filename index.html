@@ -6,7 +6,7 @@
   // 初始化Pyodide环境（首次加载可能需要几秒，因.wasm文件较大）
   async function initPyodide() {
     pyodide = await loadPyodide({
-      indexURL: "static/pyodide/",  // 指向Pyodide资源目录
+      indexURL: "/static/pyodide/",  // 指向Pyodide资源目录
     });
     // 预安装所需的Python库（如matplotlib）
     await pyodide.loadPackage(["matplotlib"]);
