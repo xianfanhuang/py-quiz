@@ -1,4 +1,3 @@
-
 let pyodide;
 async function initPyodide() {
   // 加载工作流构建的Pyodide资源（路径不变，但内容由CI自动生成）
