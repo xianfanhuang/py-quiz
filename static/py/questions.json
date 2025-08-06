@@ -3,7 +3,7 @@
     "question": "在 Python 中，如何声明一个空列表？",
     "options": ["list()", "[]", "new List()", "{}"],
     "correct": 1,
-    "explanation": "在 Python 中，可以使用 [] 或 list() 来创建空列表，但 [] 是更常用的方式。"
+    "explanation": "在 Python 中，可以使用 [] 或 list() 来创建空列表，但 [] 是常用的方式。"
   },
   {
     "question": "下面哪个是 Python 中的注释符号？",
