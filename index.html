@@ -71,7 +71,46 @@
         </div>
     </div>
     <script>
-        // Quiz functionality will be added here
+    // 加载题库文件并渲染题目
+  async function loadQuiz() {
+  try {
+    // 请求题库文件（路径需与实际部署后的位置一致）
+    const response = await fetch('static/py/questions.json');
+    if (!response.ok) {
+      throw new Error('题库文件加载失败');
+    }
+    const questions = await response.json(); // 解析JSON数据
+    
+    // 渲染题目到页面（示例逻辑）
+    const quizContainer = document.getElementById('quiz');
+    questions.forEach((question, index) => {
+      const questionElement = document.createElement('div');
+      questionElement.className = 'question';
+      questionElement.innerHTML = `
+        <h3>第 ${index + 1} 题：${question.question}</h3>
+        <div class="options">
+          ${question.options.map((option, optIndex) => `
+            <div class="option">
+              <input type="radio" name="q${index}" value="${optIndex}">
+              <label>${option}</label>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      quizContainer.appendChild(questionElement);
+    });
+    console.log('题库加载成功');
+  } catch (error) {
+    console.error('加载失败：', error);
+    document.getElementById('quiz').innerHTML = '<p>题库加载失败，请稍后重试</p>';
+  }
+}
+
+// 页面加载完成后执行题库加载
+window.onload = function() {
+  initPyodide(); // 保留原有的Pyodide初始化
+  loadQuiz(); // 新增题库加载函数
+};
     </script>
 </body>
 </html>
