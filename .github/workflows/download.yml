@@ -53,23 +53,3 @@ jobs:
           curl -O ${BASE_URL}/packaging.data
           
           echo "matplotlib 和 pillow 下载完成"
-
-      - name: 更新 HTML 加载路径
-        run: |
-          # 修改 index.html 中的 Pyodide 加载路径
-          sed -i 's|https://cdn.jsdelivr.net/pyodide/.*/full/|static/pyodide/|g' dist/index.html
-          
-          # 确保使用相对路径
-          sed -i 's|/static/|static/|g' dist/index.html
-          
-          # 添加预加载包
-          echo '<script>' >> dist/index.html
-          echo '  async function main() {' >> dist/index.html
-          echo '    const pyodide = await loadPyodide({' >> dist/index.html
-          echo '      indexURL: "static/pyodide",' >> dist/index.html
-          echo '      packages: ["matplotlib", "PIL"]' >> dist/index.html
-          echo '    });' >> dist/index.html
-          echo '    // 您的 Python 代码在这里' >> dist/index.html
-          echo '  }' >> dist/index.html
-          echo '  main();' >> dist/index.html
-          echo '</script>' >> dist/index.html
