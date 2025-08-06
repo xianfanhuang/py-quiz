@@ -17,7 +17,9 @@ jobs:
         run: |
       
           # 复制前端文件
-          cp index.html dist/
+          cp-readme.md/dist
+          cp-pyodide_meta.yamd/dist
+          cp-index.html dist/
           cp -r static/css dist/static/
           cp -r static/js dist/static/
           cp -r static/py dist/static/
