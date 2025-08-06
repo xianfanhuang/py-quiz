@@ -21,11 +21,13 @@ jobs:
           mkdir -p dist/static/pyodide
           mkdir -p dist/static/css
           mkdir -p dist/static/js
+          mkdir -p dist/staic/py
           
           # 复制前端文件
           cp index.html dist/
           cp -r static/css dist/static/
           cp -r static/js dist/static/
+          cp -r static/py dist/static/
 
       - name: 下载 Pyodide 核心文件
         run: |
