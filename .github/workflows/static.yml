@@ -1,0 +1,42 @@
+name: Sync main/static to gh-pages
+
+# 触发条件：仅当 main 分支的 static 目录有文件提交时触发
+on:
+  push:
+    branches:
+      - main1  # 只监听 main 分支的推送
+    paths:
+      - 'static/**'  # 仅当 static 目录（含子目录）有文件变动时触发
+
+jobs:
+  sync-static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 拉取完整历史，确保能检测文件变动
+
+      - name: 准备同步目录
+        run: |
+          # 创建临时目录用于存放要同步的 static 内容
+          mkdir -p sync_dir/static
+          # 复制 main 分支的 static 目录到临时目录
+          cp -r static/** sync_dir/static/
+
+      - name: 部署到 gh-pages 分支
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./sync_dir  # 仅推送 static 目录（位于 sync_dir 下）
+          publish_branch: gh-pages  # 目标分支
+          force_orphan: false  # 保留 gh-pages 分支历史（避免覆盖其他文件）
+          user_name: 'GitHub Actions'
+          user_email: 'actions@github.com'
+          # 仅提交 static 目录的变动，避免影响 gh-pages 分支的其他文件
+          commit_message: "Sync static from main: ${{ github.sha }}"
+
+permissions:
+  contents: write  # 允许写入代码仓库
