@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 拉取代码
+      - name: 拉取代
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
