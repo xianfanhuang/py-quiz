@@ -3,7 +3,7 @@ name: Deploy Pyodide with Matplotlib and Pillow
 on:
   push:
     branches:
-      - main
+      - deploy
   workflow_dispatch:
 
 jobs:
