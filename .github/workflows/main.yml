@@ -29,7 +29,7 @@ jobs:
           cp -r static/js dist/static/
           cp -r static/py dist/static/
 
-      - name: 下载 Pyodide 核心文件
+      - name: 下载 Pyodide 核文件
         run: |
           cd dist/static/pyodide
           PYODIDE_VERSION=0.25.0
