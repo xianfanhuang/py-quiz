@@ -3,163 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style.css">
-    <!-- 引用main.js -->
-<script src="static/js/main.js"></script>
     <title>Python Quiz</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .quiz-container {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        .question {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 4px;
-        }
-        .options {
-            margin-top: 10px;
-        }
-        .option {
-            margin: 8px 0;
-        }
-    </style>
-    <!-- 加载Pyodide核心文件 -->
+    <!-- 引用样式 -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <!-- 加载Pyodide（如需） -->
     <script src="static/pyodide/pyodide.js"></script>
 </head>
 <body>
-    <!-- 答题后显示的可视化区域 -->
-    <div id="visualization-area" style="display: none;">
-        <h4>代码执行可视化</h4>
-        <canvas id="flow-canvas" width="600" height="300"></canvas>
-        <img id="variable-plot" style="max-width: 100%;">
-        <button onclick="nextStep()">下一步</button>
-    </div>
-
-    <h1>Python Quiz</h1>
     <div class="quiz-container">
-        <h2>Welcome to the Python Quiz!</h2>
-        <p>Get ready to test your Python knowledge.</p>
-        <div id="quiz">
-            <!-- 题库内容将在这里动态加载 -->
-        </div>
+        <h1>Python Quiz</h1>
+        <div id="quiz"></div> <!-- 题库渲染区域 -->
+        <button id="submit">提交答案</button>
     </div>
 
+    <!-- 引用交互逻辑 -->
+    <script src="static/js/main.js"></script>
     <script>
-        // 全局Pyodide实例
-        let pyodide;
-
-        /**
-         * 初始化Pyodide环境
-         */
-        async function initPyodide() {
-            try {
-                pyodide = await loadPyodide({
-                    indexURL: "static/pyodide/", // 指向Pyodide资源目录
-                });
-                // 预安装所需Python库
-                await pyodide.loadPackage(["matplotlib"]);
-                console.log("Pyodide初始化完成，可执行Python代码");
-            } catch (error) {
-                console.error("Pyodide初始化失败：", error);
-            }
-        }
-
-        /**
-         * 加载题库并渲染到页面
-         */
-        async function loadQuiz() {
-            try {
-                // 请求题库文件
-                const response = await fetch('static/py/questions.json');
-                if (!response.ok) {
-                    throw new Error(`请求失败，状态码：${response.status}`);
-                }
-                const questions = await response.json();
-
-                // 渲染题目到页面
-                const quizContainer = document.getElementById('quiz');
-                questions.forEach((question, index) => {
-                    const questionElement = document.createElement('div');
-                    questionElement.className = 'question';
-                    questionElement.innerHTML = `
-                        <h3>第 ${index + 1} 题：${question.question}</h3>
-                        <div class="options">
-                            ${question.options.map((option, optIndex) => `
-                                <div class="option">
-                                    <input type="radio" name="q${index}" value="${optIndex}">
-                                    <label>${option}</label>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                    quizContainer.appendChild(questionElement);
-                });
-
-                console.log('题库加载成功，共加载', questions.length, '题');
-            } catch (error) {
-                console.error('题库加载失败：', error);
-                document.getElementById('quiz').innerHTML = 
-                    '<p style="color: #ff0000;">题库加载失败，请刷新页面重试</p>';
-            }
-        }
-
-        /**
-         * 答题正确后触发可视化（预留逻辑）
-         * @param {Object} question - 题目数据
-         */
-        function onAnswerCorrect(question) {
-            // 注意：当前题库数据中无correctCode字段，需后续补充题目结构才能完整运行
-            const correctCode = question.correctCode; 
-            if (!correctCode) {
-                console.warn("题目缺少正确代码片段，无法触发可视化");
-                return;
-            }
-
-            const codeLines = correctCode.split('\n');
-            executeCode(correctCode).then(({ events }) => {
-                document.getElementById('visualization-area').style.display = 'block';
-                const canvas = document.getElementById('flow-canvas');
-                renderExecutionFlow(canvas, codeLines, 0);
-                generateVariablePlot(events).then(url => {
-                    document.getElementById('variable-plot').src = url;
-                });
-            });
-        }
-
-        // 页面加载完成后初始化
-        window.onload = function() {
-            initPyodide(); // 初始化Pyodide
-            loadQuiz();    // 加载题库
+        // 页面加载后初始化题库
+        window.onload = () => {
+            loadQuiz(); // 从main.js调用题库加载函数
         };
-
-        // 预留函数（需根据实际逻辑实现）
-        async function executeCode(code) {
-            // 示例：实际应实现代码执行逻辑并返回事件数据
-            return { events: [] };
-        }
-
-        function renderExecutionFlow(canvas, codeLines, step) {
-            // 示例：实际应实现画布渲染逻辑
-        }
-
-        async function generateVariablePlot(events) {
-            // 示例：实际应实现图表生成逻辑
-            return "";
-        }
-
-        function nextStep() {
-            // 示例：实际应实现下一步逻辑
-        }
     </script>
 </body>
 </html>
