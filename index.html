@@ -1,73 +1,35 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Python 交互式题库</title>
-  <link rel="stylesheet" href="./static/css/style.css">
-  <!-- 引入pyodide核库 -->
-  <script src="./static/pyodide/pyodide.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Quiz</title>
+    <!-- 修复样式表引用路径，确保正确加载 -->
+    <link rel="stylesheet" href="./static/css/style.css">
 </head>
 <body>
-  <div class="container">
-    
-    <!-- 头部区域 -->
-    <header class="header">
-      <div class="header__title">Python 基础知识测验</div>
-      <div class="header__controls">
-        <div class="timer" id="timer">用时：0分0秒</div>
-        <button class="btn btn--secondary" id="wrong-questions">错题本</button>
-      </div>
-      
-      <!-- 筛选区域 -->
-      <div class="filters">
-        <select class="filter" id="category-filter">
-          <option value="">全部分类</option>
-          <option value="基础语法">基础语法</option>
-          <option value="数据类型">数据类型</option>
-          <option value="函数">函数</option>
-          <option value="控制流">控制流</option>
-        </select>
-        <select class="filter" id="difficulty-filter">
-          <option value="">全部难度</option>
-          <option value="easy">简单</option>
-          <option value="medium">中等</option>
-          <option value="hard">困难</option>
-        </select>
-        <button class="btn btn--filter" id="filter-btn">筛选</button>
-      </div>
-    </header>
+    <div class="container">
+        <header>
+            <h1>Python Quiz</h1>
+            <p>Test your Python knowledge with this interactive quiz!</p>
+        </header>
 
-    <!-- 主内容区 -->
-    <main class="quiz">
-      <!-- 题目容器 -->
-      <div class="quiz-container" id="quiz-container"></div>
-      
-      <!-- 代码运行区（默认隐藏，按需显示） -->
-      <div class="code-runner" id="code-runner">
-        <div class="code-runner__label">代码验证区（可运行Python代码）</div>
-        <textarea class="code-runner__input" id="code-input" placeholder="输入Python代码，例如：print(1+1)"></textarea>
-        <button class="btn btn--run" id="run-code">运行代码</button>
-        <div class="code-runner__output" id="code-output"></div>
-      </div>
-      
-      <!-- 操作按-->
-      <div class="quiz-actions">
-        <button class="btn btn--submit" id="submit">提交答案</button>
-        <button class="btn btn--reset hidden" id="reset">重新答题</button>
-        <button class="btn btn--back hidden" id="back-to-full">返回全题库</button>
-      </div>
-    </main>
+        <!-- 统一DOM容器类名与ID，匹配main.js中的选择器 -->
+        <div class="quiz-container" id="quiz-container">
+            <!-- 题目将由main.js动态渲染到此处 -->
+        </div>
 
-    <!-- 结果展示区 -->
-    <div class="result" id="result"></div>
-  </div>
+        <!-- 结果展示区域（默认隐藏，由JS控制显示） -->
+        <div class="results-container" id="results-container" style="display: none;">
+            <h2>Your Results</h2>
+            <div class="total-result" id="total-result"></div>
+            <button id="restart-quiz">Restart Quiz</button>
+        </div>
+    </div>
 
-  <!-- 加载提示 -->
-  <div class="loading" id="loading">
-    <div class="loading__text">初始化中...</div>
-  </div>
-
-  <script src="./static/js/main.js"></script>
+    <!-- 1. 先加载Pyodide核心文件（main.js依赖） -->
+    <script src="./static/pyodide/pyodide.js"></script>
+    <!-- 2. 修复脚本引用的引号缺失问题，使用相对路径确保子目录部署兼容 -->
+    <script src="./static/js/main.js" type="module"></script>
 </body>
 </html>
