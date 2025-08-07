@@ -5,7 +5,7 @@
     "difficulty": "easy",
     "needCodeRunner": true,
     "question": "在 Python 中，如何声明一个空列表？",
-    "options": ["list()", "[]", "new List()", "{}"],
+    "options": ["list()", "[]", "new List()", "{}"]
     "correctAnswer": 1,
     "explanation": "在 Python 中，可以使用 [] 或 list() 来创建空列表，但 [] 是更常用的方式。"
   },
@@ -45,7 +45,7 @@
     "difficulty": "easy",
     "needCodeRunner": true,
     "question": "Python 中的 if 语句结束后需要加什么？",
-    "options": ["分号 ;", "冒号 :", "点号 .", "不需要任何符号"],
+    "options": ["分号 ;", "冒号 :", "点号 .", "不需要任何符号"]
     "correctAnswer": 1,
     "explanation": "Python 中的 if 语句（以及其他代码块）需要在末尾加冒号 :，用于标识代码块的开始。"
   },
@@ -55,7 +55,7 @@
     "difficulty": "medium",
     "needCodeRunner": false,
     "question": "以下哪个不是 Python 的内置数据类型？",
-    "options": ["int", "float", "array", "str"],
+    "options": ["int", "float", "array", "str"]
     "correctAnswer": 2,
     "explanation": "array 不是 Python 内置数据类型，需通过 numpy 等库导入；int（整数）、float（浮点数）、str（字符串）是内置类型。"
   },
@@ -75,7 +75,7 @@
     "difficulty": "medium",
     "needCodeRunner": true,
     "question": "列表 [1, 2, 3] 执行 pop(1) 后，结果为？",
-    "options": ["[1, 3]", "[1, 2]", "[2, 3]", "报错"],
+    "options": ["[1, 3]", "[1, 2]", "[2, 3]", "报错"]
     "correctAnswer": 0,
     "explanation": "pop(index) 移除列表中指定索引的元素，索引 1 对应的元素是 2，移除后列表变为 [1, 3]。"
   },
@@ -85,7 +85,7 @@
     "difficulty": "medium",
     "needCodeRunner": true,
     "question": "字典 {'name': 'Tom', 'age': 18} 中，获取 'Tom' 的方式是？",
-    "options": ["dict[0]", "dict['name']", "dict.name", "dict.get(0)"],
+    "options": ["dict[0]", "dict['name']", "dict.name", "dict.get(0)"]
     "correctAnswer": 1,
     "explanation": "字典通过键名访问值，'name' 是键，使用 dict['name'] 可获取对应值 'Tom'；字典不支持索引访问（如 [0]）。"
   },
@@ -95,7 +95,7 @@
     "difficulty": "easy",
     "needCodeRunner": true,
     "question": "以下哪个循环适合遍历列表中的元素？",
-    "options": ["for 循环", "while 循环", "do-while 循环", "以上都不适合"],
+    "options": ["for 循环", "while 循环", "do-while 循环", "以上都不适合"]
     "correctAnswer": 0,
     "explanation": "for 循环常用于遍历序列（如列表、字符串），语法简洁；while 循环更适合条件循环，Python 无 do-while 循环。"
   },
@@ -165,7 +165,7 @@
     "difficulty": "easy",
     "needCodeRunner": true,
     "question": "以下哪个方法可以向列表末尾添加元素？",
-    "options": ["add()", "append()", "insert()", "push()"],
+    "options": ["add()", "append()", "insert()", "push()"]
     "correctAnswer": 1,
     "explanation": "append() 方法用于在列表末尾添加单个元素；insert() 用于指定位置插入；Python 列表无 add() 和 push() 方法（push() 是 JavaScript 方法）。"
   },
@@ -185,7 +185,7 @@
     "difficulty": "medium",
     "needCodeRunner": true,
     "question": "字典的 keys() 方法返回的是什么？",
-    "options": ["所有值的集合", "所有键的集合", "键值对的集合", "字典的长度"],
+    "options": ["所有值的集合", "所有键的集合", "键值对的集合", "字典的长度"]
     "correctAnswer": 1,
     "explanation": "keys() 方法返回字典中所有键组成的视图对象（可遍历）；values() 返回值的集合，items() 返回键值对集合。"
   },
@@ -195,7 +195,7 @@
     "difficulty": "medium",
     "needCodeRunner": true,
     "question": "以下哪个代码可以生成 0 到 4 的整数？",
-    "options": ["range(5)", "range(1,5)", "range(0,4)", "range(0,5,2)"],
+    "options": ["range(5)", "range(1,5)", "range(0,4)", "range(0,5,2)"]
     "correctAnswer": 0,
     "explanation": "range(5) 生成从 0 开始、小于 5 的整数（0,1,2,3,4）；range(1,5) 生成 1-4 的整数；range 第三个参数为步长。"
   },
