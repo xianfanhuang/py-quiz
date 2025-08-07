@@ -1,0 +1,14 @@
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<h1>404 Not Found</h1>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>Key: v0.25.0/full/packaging.data</li>
+<li>RequestId: CNEGZ3YBDAD66GQ6</li>
+<li>HostId: AqoL8ZoqMzeiaaZUhRNFKjOJri+WAY4WOnGIRHKgb/YC/jH0k6hWjNyfRPsS4YjKmYKMekGfjUo=</li>
+</ul>
+<hr/>
+</body>
+</html>

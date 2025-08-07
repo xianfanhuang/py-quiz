@@ -1,0 +1,14 @@
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<h1>404 Not Found</h1>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>Key: v0.25.0/full/PIL.data</li>
+<li>RequestId: E18MEZYAA177GN1R</li>
+<li>HostId: nLnj9UffqEqH4tBA/JrRWYsNzBOTcNhsDcBr7XIZ1tTy2ZOMy90S8Kw6D/G/3Jw3rGxAWKVK8TQ=</li>
+</ul>
+<hr/>
+</body>
+</html>
