@@ -9,14 +9,18 @@ class PythonQuiz {
         this.init();
     }
 
-    async init() {
-        try {
-            // 先初始化Pyodide，再加载题库
-            await this.initPyodide();
-            await this.loadQuestions();
-            this.renderQuestion();
-        } catch (error) {
-            this.showErrorMessage(`初始化失败: ${error.message}`);
+async init() {
+  try {
+    // 1. 优先加载题库并渲染，不等待Pyodide
+    await this.loadQuestions();
+    this.renderQuestion();
+
+    // 2. 后台初始化Pyodide（不阻塞主线程）
+    this.initPyodide().catch(err => {
+      console.warn('Pyodide初始化失败（不影响基础答题）:', err);
+    });
+  } catch (error) {
+    this.showErrorMessage(`初始化失败: ${error.mes...
         }
     }
 
