@@ -1,42 +1,44 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+name: Sync main to gh-pages
 
-# This workflow will install Deno then run `deno lint` and `deno test`.
-# For more information see: https://github.com/denoland/setup-deno
-
-name: Deno
-
+# 触发条件：main分支有新提交或更改时触发
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-
-permissions:
-  contents: read
+    branches: [ main ]
+    # 排除.github目录的变更（若仅改此目录则不触发）
+    paths-ignore:
+      - '.github/**'
 
 jobs:
-  test:
+  sync:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Setup repo
+      - name: Checkout main branch
         uses: actions/checkout@v4
-
-      - name: Setup Deno
-        # uses: denoland/setup-deno@v1
-        uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31  # v1.1.2
         with:
-          deno-version: v1.x
+          ref: main
+          path: main  # 将main分支内容存到main目录
 
-      # Uncomment this step to verify the use of 'deno fmt' on each commit.
-      # - name: Verify formatting
-      #   run: deno fmt --check
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages  # 将gh-pages分支内容存到gh-pages目录
 
-      - name: Run linter
-        run: deno lint
+      - name: Sync files (excluding .github)
+        run: |
+          # 复制main分支中除.github外的所有文件到gh-pages目录（不覆盖非同名文件）
+          rsync -av --exclude '.github' main/ gh-pages/
 
-      - name: Run tests
-        run: deno test -A
+      - name: Commit and push changes
+        run: |
+          cd gh-pages
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add .
+          # 仅在有变更时提交
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Sync from main branch: $GITHUB_SHA"
+            git push
+          fi
