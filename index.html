@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Python Quiz</title>
     <!-- 修复样式表引用路径，确保正确加载 -->
-    <link rel="stylesheet" href="./static/css/style.css">
+   　
+        <!-- 样式表 -->
+<link rel="stylesheet" href="/py-quiz/static/css/style.css">
+<!-- Pyodide 核心文件 -->
+<script src="/py-quiz/static/pyodide/pyodide.js"></script>
+<!-- 主脚本 -->
+<script src="/py-quiz/static/js/main.js" type="module"></script>
 </head>
 <body>
     <div class="container">
@@ -26,10 +32,5 @@
             <button id="restart-quiz">Restart Quiz</button>
         </div>
     </div>
-
-    <!-- 1. 先加载Pyodide核心文件（main.js依赖） -->
-    <script src="./static/pyodide/pyodide.js"></script>
-    <!-- 2. 修复脚本引用的引号缺失问题，使用相对路径确保子目录部署兼容 -->
-    <script src="./static/js/main.js" type="module"></script>
 </body>
 </html>
