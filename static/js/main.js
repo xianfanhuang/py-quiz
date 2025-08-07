@@ -31,6 +31,18 @@ class PythonQuiz {
     };
 
     // 初始化
+   async init() {
+    try {
+    await this.initPyodide();  // 先初始化Pyodide
+    await this.loadQuestions(); // 再加载题库
+  } catch (error) {
+    this.showErrorMessage('初始化失败: ' + error.message);
+  }
+}
+    if (!this.state.pyodide) {
+  this.showErrorMessage('Pyodide 未初始化');
+  return;
+}
     this.init();
   }
 
