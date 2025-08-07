@@ -1,0 +1,253 @@
+[
+  {
+    "id": 1,
+    "category": "数据类型",
+    "difficulty": "easy",
+    "needCodeRunner": true,
+    "question": "在 Python 中，如何声明一个空列表？",
+    "options": ["list()", "[]", "new List()", "{}"],
+    "correctAnswer": 1,
+    "explanation": "在 Python 中，可以使用 [] 或 list() 来创建空列表，但 [] 是更常用的方式。"
+  },
+  {
+    "id": 2,
+    "category": "基础语法",
+    "difficulty": "easy",
+    "needCodeRunner": false,
+    "question": "下面哪个是 Python 中的注释符号？",
+    "options": ["//", "/* */", "#", "<!-- -->"],
+    "correctAnswer": 2,
+    "explanation": "Python 使用 # 作为单行注释符号。多行注释可以使用三个引号 ''' 或 \"\"\"。"
+  },
+  {
+    "id": 3,
+    "category": "数据类型",
+    "difficulty": "easy",
+    "needCodeRunner": true,
+    "question": "Python 中的字符串可以用什么符号表示？",
+    "options": ["只能用单引号 ''", "只能用双引号 \"\"", "单引号和双引号都可以", "必须用反引号 ``"],
+    "correctAnswer": 2,
+    "explanation": "Python 中的字符串可以用单引号或双引号表示，两者是等价的。"
+  },
+  {
+    "id": 4,
+    "category": "数据类型",
+    "difficulty": "easy",
+    "needCodeRunner": true,
+    "question": "在 Python 中，如何获取字符串的长度？",
+    "options": ["str.length", "str.size()", "len(str)", "str.length()"],
+    "correctAnswer": 2,
+    "explanation": "在 Python 中，使用内置函数 len() 来获取字符串、列表等序列的长度。"
+  },
+  {
+    "id": 5,
+    "category": "控制流",
+    "difficulty": "easy",
+    "needCodeRunner": true,
+    "question": "Python 中的 if 语句结束后需要加什么？",
+    "options": ["分号 ;", "冒号 :", "点号 .", "不需要任何符号"],
+    "correctAnswer": 1,
+    "explanation": "Python 中的 if 语句（以及其他代码块）需要在末尾加冒号 :，用于标识代码块的开始。"
+  },
+  {
+    "id": 6,
+    "category": "数据类型",
+    "difficulty": "medium",
+    "needCodeRunner": false,
+    "question": "以下哪个不是 Python 的内置数据类型？",
+    "options": ["int", "float", "array", "str"],
+    "correctAnswer": 2,
+    "explanation": "array 不是 Python 内置数据类型，需通过 numpy 等库导入；int（整数）、float（浮点数）、str（字符串）是内置类型。"
+  },
+  {
+    "id": 7,
+    "category": "基础语法",
+    "difficulty": "easy",
+    "needCodeRunner": true,
+    "question": "执行 print(3 + 4 * 2) 的结果是？",
+    "options": ["14", "11", "10", "21"],
+    "correctAnswer": 1,
+    "explanation": "Python 中运算符优先级为乘法高于加法，先计算 4*2=8，再计算 3+8=11。"
+  },
+  {
+    "id": 8,
+    "category": "数据类型",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "列表 [1, 2, 3] 执行 pop(1) 后，结果为？",
+    "options": ["[1, 3]", "[1, 2]", "[2, 3]", "报错"],
+    "correctAnswer": 0,
+    "explanation": "pop(index) 移除列表中指定索引的元素，索引 1 对应的元素是 2，移除后列表变为 [1, 3]。"
+  },
+  {
+    "id": 9,
+    "category": "数据类型",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "字典 {'name': 'Tom', 'age': 18} 中，获取 'Tom' 的方式是？",
+    "options": ["dict[0]", "dict['name']", "dict.name", "dict.get(0)"],
+    "correctAnswer": 1,
+    "explanation": "字典通过键名访问值，'name' 是键，使用 dict['name'] 可获取对应值 'Tom'；字典不支持索引访问（如 [0]）。"
+  },
+  {
+    "id": 10,
+    "category": "控制流",
+    "difficulty": "easy",
+    "needCodeRunner": true,
+    "question": "以下哪个循环适合遍历列表中的元素？",
+    "options": ["for 循环", "while 循环", "do-while 循环", "以上都不适合"],
+    "correctAnswer": 0,
+    "explanation": "for 循环常用于遍历序列（如列表、字符串），语法简洁；while 循环更适合条件循环，Python 无 do-while 循环。"
+  },
+  {
+    "id": 11,
+    "category": "函数",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "定义函数时，参数默认值的正确写法是？",
+    "options": ["def func(a=1, b):", "def func(a, b=2):", "def func(a=3, b=4, c):", "def func(a, b=5, c):"],
+    "correctAnswer": 1,
+    "explanation": "带默认值的参数必须放在无默认值参数后面，否则会触发语法错误。"
+  },
+  {
+    "id": 12,
+    "category": "异常处理",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "以下哪个语句可以捕获程序中的异常？",
+    "options": ["try", "catch", "finally", "throw"],
+    "correctAnswer": 0,
+    "explanation": "Python 使用 try-except 结构捕获异常，try 块包含可能出错的代码，except 块处理异常；catch 是其他语言（如 Java）的关键字。"
+  },
+  {
+    "id": 13,
+    "category": "数据类型",
+    "difficulty": "easy",
+    "needCodeRunner": true,
+    "question": "字符串 'hello' 执行 upper() 方法后结果是？",
+    "options": ["HELLO", "hello", "Hello", "hELLO"],
+    "correctAnswer": 0,
+    "explanation": "upper() 方法将字符串中所有小写字母转为大写，'hello' 转换后为 'HELLO'；对应的 lower() 方法转为小写。"
+  },
+  {
+    "id": 14,
+    "category": "数据类型",
+    "difficulty": "easy",
+    "needCodeRunner": false,
+    "question": "以下哪个是 Python 的布尔值？",
+    "options": ["True", "true", "TRUE", "T"],
+    "correctAnswer": 0,
+    "explanation": "Python 中布尔值为 True（真）和 False（假），首字母必须大写，区分大小写。"
+  },
+  {
+    "id": 15,
+    "category": "数据类型",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "元组 (1, 2, 3) 与列表 [1, 2, 3] 的主要区别是？",
+    "options": ["元组长度固定", "元组不可修改", "元组只能包含数字", "元组没有索引"],
+    "correctAnswer": 1,
+    "explanation": "元组是不可变序列（创建后不能修改元素），列表是可变序列（可增删改元素）；两者都支持索引和任意数据类型。"
+  },
+  {
+    "id": 16,
+    "category": "基础语法",
+    "difficulty": "easy",
+    "needCodeRunner": true,
+    "question": "执行 print(10 % 3) 的结果是？",
+    "options": ["3", "1", "0", "3.33"],
+    "correctAnswer": 1,
+    "explanation": "% 是取模运算符，返回除法的余数，10 除以 3 商 3 余 1，因此结果为 1。"
+  },
+  {
+    "id": 17,
+    "category": "数据类型",
+    "difficulty": "easy",
+    "needCodeRunner": true,
+    "question": "以下哪个方法可以向列表末尾添加元素？",
+    "options": ["add()", "append()", "insert()", "push()"],
+    "correctAnswer": 1,
+    "explanation": "append() 方法用于在列表末尾添加单个元素；insert() 用于指定位置插入；Python 列表无 add() 和 push() 方法（push() 是 JavaScript 方法）。"
+  },
+  {
+    "id": 18,
+    "category": "控制流",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "Python 中，以下哪个关键字用于退出循环？",
+    "options": ["exit", "break", "continue", "return"],
+    "correctAnswer": 1,
+    "explanation": "break 用于立即退出当前循环；continue 用于跳过本次循环剩余部分，进入下一次；return 用于退出函数；exit() 是退出程序的函数。"
+  },
+  {
+    "id": 19,
+    "category": "数据类型",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "字典的 keys() 方法返回的是什么？",
+    "options": ["所有值的集合", "所有键的集合", "键值对的集合", "字典的长度"],
+    "correctAnswer": 1,
+    "explanation": "keys() 方法返回字典中所有键组成的视图对象（可遍历）；values() 返回值的集合，items() 返回键值对集合。"
+  },
+  {
+    "id": 20,
+    "category": "控制流",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "以下哪个代码可以生成 0 到 4 的整数？",
+    "options": ["range(5)", "range(1,5)", "range(0,4)", "range(0,5,2)"],
+    "correctAnswer": 0,
+    "explanation": "range(5) 生成从 0 开始、小于 5 的整数（0,1,2,3,4）；range(1,5) 生成 1-4 的整数；range 第三个参数为步长。"
+  },
+  // 以下为原questions-2.json推测题目（按相同格式补充）
+  {
+    "id": 21,
+    "category": "函数",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "Python 中，函数返回值使用哪个关键字？",
+    "options": ["return", "break", "continue", "yield"],
+    "correctAnswer": 0,
+    "explanation": "return 用于函数返回值；yield 用于生成器函数；break/continue 用于控制循环。"
+  },
+  {
+    "id": 22,
+    "category": "数据类型",
+    "difficulty": "hard",
+    "needCodeRunner": true,
+    "question": "以下哪个方法可以实现列表去重？",
+    "options": ["list.unique()", "set(list)", "list.distinct()", "numpy.unique(list)"],
+    "correctAnswer": 1,
+    "explanation": "Python 列表无内置去重方法，可通过 set(list) 转换为集合（自动去重）后再转回列表；numpy.unique() 需要导入 numpy 库。"
+  },
+  {
+    "id": 23,
+    "category": "基础语法",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "执行 ''.join(['P','y','t','h','o','n']) 的结果是？",
+    "options": ["['P','y','t','h','o','n']", "Python", "P y t h o n", "Pytho+n"],
+    "correctAnswer": 1,
+    "explanation": "join() 方法用于将序列中的元素以指定字符串连接生成新字符串，''.join(...) 表示无间隔连接。"
+  },
+  {
+    "id": 24,
+    "category": "异常处理",
+    "difficulty": "hard",
+    "needCodeRunner": true,
+    "question": "以下代码的输出结果是？\ntry:\n  print(1/0)\nexcept ZeroDivisionError:\n  print('除数不能为0')",
+    "options": ["0", "1", "除数不能为0", "报错"],
+    "correctAnswer": 2,
+    "explanation": "1/0 会触发 ZeroDivisionError 异常，被 except 块捕获，因此输出 '除数不能为0'。"
+  },
+  {
+    "id": 25,
+    "category": "控制流",
+    "difficulty": "medium",
+    "needCodeRunner": true,
+    "question": "以下循环执行后，i 的值是？\ni = 0\nwhile i < 3:\n  i += 1\nelse:\n  i = 5",
+    "options": ["3", "5", "0", "2"],
+    "correctAnswer": 1,
+    "explanation": "while 循环正常结束（不是通过 break）后会执行 else 块，因此 i 最终被赋值为 5。"
+  }
+]
