@@ -35,7 +35,26 @@ async init() {
             throw new Error(`Pyodide加载失败: ${error.message}`);
         }
     }
-
+async initPyodide() {
+    const maxRetries = 3;
+    let retries = 0;
+    while (retries < maxRetries) {
+        try {
+            this.state.pyodide = await loadPyodide({
+                indexURL: "/py-quiz/static/pyodide/", 
+            });
+            console.log("Pyodide 初始化成功");
+            return;
+        } catch (error) {
+            retries++;
+            if (retries === maxRetries) {
+                throw new Error(`Pyodide 加载失败: ${error.message}`);
+            }
+            console.warn(`Pyodide 加载重试（第 ${retries} 次）: ${error.message}`);
+            await new Promise((resolve) => setTimeout(resolve, 2000)); // 等待2秒后重试
+        }
+    }
+}
     // 修正题库加载路径
     async loadQuestions() {
         try {
