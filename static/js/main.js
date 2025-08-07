@@ -26,7 +26,7 @@ class PythonQuiz {
             this.state.pyodide = await loadPyodide({
                 indexURL: '/py-quiz/static/pyodide/'  // 绝对子路径
             });
-            console.log('Pyodide initialized successfully');
+            console.log('pyodide initialized successfully');
         } catch (error) {
             throw new Error(`Pyodide加载失败: ${error.message}`);
         }
