@@ -11,6 +11,13 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main  # 将main分支内容存到main目录
+
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:
