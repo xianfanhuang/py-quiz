@@ -4,7 +4,7 @@ name: Sync main (excluding .github) to gh-pages
 on:
   push:
     branches:
-      - main  # 仅监听main分支
+      - main1  # 仅监听main分支
     paths:
       - '**'                # 匹配所有文件和目录
       - '!/.github/**'      # 排除.github目录及其所有内容
