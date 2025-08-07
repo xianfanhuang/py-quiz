@@ -4,14 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Python Quiz</title>
-    <!-- 修复样式表引用路径，确保正确加载 -->
-   　
-        <!-- 样式表 -->
-<link rel="stylesheet" href="static/css/style.css">
-<!-- Pyodide 核心文件 -->
-<script src="static/pyodide/pyodide.js"></script>
-<!-- 主脚本 -->
-<script src="static/js/main.js" type="module"></script>
+    <!-- 修正样式路径为绝对子路径 -->
+    <link rel="stylesheet" href="/py-quiz/static/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -20,17 +14,20 @@
             <p>Test your Python knowledge with this interactive quiz!</p>
         </header>
 
-        <!-- 统一DOM容器类名与ID，匹配main.js中的选择器 -->
-        <div class="quiz-container" id="quiz-container">
-            <!-- 题目将由main.js动态渲染到此处 -->
-        </div>
+        <!-- 统一容器类名与ID，匹配main.js选择器 -->
+        <div class="quiz-container" id="quiz-container"></div>
 
-        <!-- 结果展示区域（默认隐藏，由JS控制显示） -->
+        <!-- 结果容器（默认隐藏） -->
         <div class="results-container" id="results-container" style="display: none;">
             <h2>Your Results</h2>
             <div class="total-result" id="total-result"></div>
             <button id="restart-quiz">Restart Quiz</button>
         </div>
     </div>
+
+    <!-- 1. 优先加载Pyodide核心文件（修正路径） -->
+    <script src="/py-quiz/static/pyodide/pyodide.js"></script>
+    <!-- 2. 修正main.js路径及标签格式 -->
+    <script src="/py-quiz/static/js/main.js" type="module"></script>
 </body>
 </html>
