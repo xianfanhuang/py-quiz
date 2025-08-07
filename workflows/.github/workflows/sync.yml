@@ -1,0 +1,39 @@
+name: Sync main to gh-pages
+
+# 触发条件：main分支有新提交或更改时触发
+on:
+  push:
+    branches: [ main ]
+    # 排除.github目录的变更（若仅改此目录则不触发）
+    paths-ignore:
+      - '.github/**'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages  # 将gh-pages分支内容存到gh-pages目录
+
+      - name: Sync files (excluding .github)
+        run: |
+          # 复制main分支中除.github外的所有文件到gh-pages目录（不覆盖非同名文件）
+          rsync -av --exclude '.github' main/ gh-pages/
+
+      - name: Commit and push changes
+        run: |
+          cd gh-pages
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add .
+          # 仅在有变更时提交
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Sync from main branch: $GITHUB_SHA"
+            git push
+          fi
