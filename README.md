@@ -30,7 +30,7 @@
 │       └── questions.json
 ```
 
-## 如何运行
+## 运行
 
 1. 克隆项目到本地
 2. 使用Web服务器（如 Python SimpleHTTPServer）运行项目
