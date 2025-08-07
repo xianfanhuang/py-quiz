@@ -73,9 +73,7 @@ class PythonQuiz {
   async loadQuestions() {
     try {
       const [res1, res2] = await Promise.all([
-        fetch('static/py/questions.json'),
-        fetch('static/py/questions-2.json')
-      ]);
+        fetch('py-quiz/static/py/questions.json'),
       if (!res1.ok || !res2.ok) throw new Error('题库加载失败');
       
       const q1 = await res1.json();
@@ -100,7 +98,7 @@ class PythonQuiz {
   async initPyodide() {
     try {
       this.state.pyodide = await loadPyodide({
-        indexURL: 'static/pyodide/' // 已部署的pyodide路径
+        indexURL: 'py-quiz/static/pyodide/' // 已部署的pyodide路径
       });
       // 重定向print输出到页面
       this.state.pyodide.globals.set('print', (text) => {
